@@ -11,12 +11,13 @@ int main(){
     {
         std::string  input;      
         std::cin >> input;
+        Game game;
         if (input == "q"){
             exit = true;
         } else if ( input == "s"){
-            Game::start()
-            while(){
-               Game::
+            game.Start();
+            while(game.game_status != 0){
+               
             }
         }
     }

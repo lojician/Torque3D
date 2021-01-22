@@ -28,13 +28,32 @@ void Game::DetermineTurn(){
 }
 void Game::PlayerAction(){
     //get player input
-    //place piece where player specified
-}
-void Game::ProcessTurn(){
+    std::string input; 
+    bool valid = false;
+    int x,y;
+    std::cout << "Do you want to play(p), or skip(s)\n";    
+    std::cin >> input;
+    while(!valid)
+        if (input == "s"){
+            valid = true;
+        }else if (input == "p")
+        {
+            std::cout << "enter the colunm and row number\n in the following format:1 2";
+            //place piece where player specified
+            std::cin >> x , y;
+            std::cout << x;
+            valid = true;
+        } else {
+            std::cout << "input invalid";
+        }
+    
     
 }
+void Game::ProcessTurn(){
+    //process the consequences of the players turn
+}
 void Game::CalculateScore(){
-
+    //calculate final score
 }
 void Game::End(){
     game_status = unstarted;

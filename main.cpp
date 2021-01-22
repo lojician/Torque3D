@@ -1,6 +1,6 @@
 #include "Board.cpp"
 #include "Game.cpp"
-#include <iostream>
+
 
 int main(){
     bool exit = false;
@@ -16,7 +16,6 @@ int main(){
             exit = true;
         } else if ( input == "s"){
             game.Start();
-           
         }
     }
  

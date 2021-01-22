@@ -7,13 +7,19 @@ Game::~Game(){
 }
 void Game::Start(){
     game_status = started;
+    Play();
 }
-void Game::End(){
-    game_status = unstarted;
+void Game::Play(){
+    while(game_status != 0){
+        
+    }
+}
+void Game::Turn(){
+
 }
 void Game::CalculateScore(){
 
 }
-void Game::Turn(){
-
+void Game::End(){
+    game_status = unstarted;
 }

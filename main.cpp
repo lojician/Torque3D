@@ -16,9 +16,7 @@ int main(){
             exit = true;
         } else if ( input == "s"){
             game.Start();
-            while(game.game_status != 0){
-               
-            }
+           
         }
     }
  

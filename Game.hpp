@@ -13,7 +13,8 @@ public:
     Game();
     ~Game();
     void Game::Start();
-    void Game::End();
-    void Game::CalculateScore();
+    void Game::Play();
     void Game::Turn();
+    void Game::CalculateScore();
+    void Game::End();
 };

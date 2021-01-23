@@ -15,7 +15,7 @@ public:
     void Game::Play();
     void Game::DetermineTurn();
     void Game::PlayerAction();
-    void Game::ProcessTurn();
+    void Game::ProcessTurn(Position);
     void Game::CalculateScore();
     void Game::End();
 };

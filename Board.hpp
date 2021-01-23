@@ -16,10 +16,10 @@ private:
 public:
     Board(int);
     ~Board();
-    void PlacePiece(int, int, point);
-    void RemovePiece(int, int);
+    void PlacePiece(Position, point);
+    void RemovePiece(Position);
     void Clear();
-    point PointCheck(int, int);
+    point PointCheck(Position);
     
 
 };

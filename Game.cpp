@@ -30,10 +30,10 @@ void Game::PlayerAction(){
     //get player input
     std::string input; 
     bool valid = false;
-    int x,y;
+    Position pos;
     std::cout << "Do you want to play(p), or skip(s)\n";    
     std::cin >> input;
-    while(!valid)
+    while(!valid){
         if (input == "s"){
             valid = true;
         }else if (input == "p")
@@ -46,10 +46,10 @@ void Game::PlayerAction(){
         } else {
             std::cout << "input invalid";
         }
-    
+    }
     
 }
-void Game::ProcessTurn(){
+void Game::ProcessTurn(Position pos){
     //process the consequences of the players turn
 }
 void Game::CalculateScore(){

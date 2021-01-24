@@ -37,11 +37,10 @@ void Game::PlayerAction()
 {
     //get player input
     std::string input; 
-    bool valid = false;
+    //bool valid = false;
     Position pos;
     while(!valid)
     {
-        cout << valid;
         cout << "Do you want to play(p), or skip(s)\n";    
         cin >> input;
         if (input == "s"){
@@ -49,14 +48,17 @@ void Game::PlayerAction()
         }else if (input == "p")
         {
             valid = true;
-            cout << "enter the colunm and row number\n in the following format:1 2\n";
+            cout << "enter the colunm and row number\n";
             //place piece where player specified
             cin >> pos.x >> pos.y;
-            cout << pos.x << "\n" << valid <<"\n";
+            cout << pos.x << "\n";
+            cout << board->PointCheck(pos) << "\n";
+            board->PlacePiece(pos, active_player);
+            cout << board->PointCheck(pos) << "\n";
+
         } else {
             cout << "Invalid input\n";
         }
-        cout << "After if: " << valid << "\n";
     }
     
 }

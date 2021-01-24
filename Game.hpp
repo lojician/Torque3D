@@ -1,5 +1,5 @@
 #include "Board.hpp"
-#include <iostream>
+
 class Game
 {     
 private:
@@ -11,11 +11,11 @@ public:
     gameStatus game_status = unstarted;
     Game();
     ~Game();
-    void Game::Start();
-    void Game::Play();
-    void Game::DetermineTurn();
-    void Game::PlayerAction();
-    void Game::ProcessTurn(Position);
-    void Game::CalculateScore();
-    void Game::End();
+    void Start();
+    void Play();
+    void DetermineTurn();
+    void PlayerAction();
+    void ProcessTurn(Position);
+    void CalculateScore();
+    void End();
 };

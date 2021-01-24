@@ -1,10 +1,14 @@
 #include <stdexcept>
+#include <iostream>
+
+auto& cin = std::cin;
+auto& cout = std::cout;
 
 enum point {empty = 0, black = 1, white = 2, captured = 3};
 enum gameStatus {unstarted = 0, started = 1, player_acting = 2, processing_action = 3};
 struct Position{
-    int x = 0;
-    int y = 0;
+    unsigned int x = 0;
+    unsigned int y = 0;
 };
 template <typename T>
 class Array2D {
@@ -35,10 +39,10 @@ public:
         }
     }
 
-    T& at(unsigned int X, unsigned int Y) {
-        if((X > sizeX) || (Y > sizeY))
+    T& at(Position pos) {
+        if((pos.x > sizeX) || (pos.y > sizeY))
             throw std::out_of_range("Array2d out of range");
 
-        return array[X * sizeX + Y];
+        return array[pos.x * sizeX + pos.y];
     }
 };

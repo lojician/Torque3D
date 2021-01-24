@@ -1,21 +1,28 @@
 #include "Game.hpp"
-Game::Game(){
+Game::Game()
+{
     board = new Board(board_size);
 }
-Game::~Game(){
+Game::~Game()
+{
     delete board;
 }
-void Game::Start(){
+void Game::Start()
+{
     game_status = started;
     Play();
 }
-void Game::Play(){
-    while(game_status != 0){
+void Game::Play()
+{
+    while(game_status != 0)
+    {
+        Position pos;
         DetermineTurn();
         PlayerAction();
     }
 }
-void Game::DetermineTurn(){
+void Game::DetermineTurn()
+{
     if (active_player == 0){
         active_player = black;
     } else if (active_player == black)
@@ -26,35 +33,43 @@ void Game::DetermineTurn(){
         active_player = black;
     }
 }
-void Game::PlayerAction(){
+void Game::PlayerAction()
+{
     //get player input
     std::string input; 
     bool valid = false;
     Position pos;
-    std::cout << "Do you want to play(p), or skip(s)\n";    
-    std::cin >> input;
-    while(!valid){
+    while(!valid)
+    {
+        cout << valid;
+        cout << "Do you want to play(p), or skip(s)\n";    
+        cin >> input;
         if (input == "s"){
             valid = true;
         }else if (input == "p")
         {
-            std::cout << "enter the colunm and row number\n in the following format:1 2";
-            //place piece where player specified
-            std::cin >> x , y;
-            std::cout << x;
             valid = true;
+            cout << "enter the colunm and row number\n in the following format:1 2\n";
+            //place piece where player specified
+            cin >> pos.x >> pos.y;
+            cout << pos.x << "\n" << valid <<"\n";
+            
+            
         } else {
-            std::cout << "input invalid";
+            cout << "Invalid input\n";
         }
     }
     
 }
-void Game::ProcessTurn(Position pos){
+void Game::ProcessTurn(Position pos)
+{
     //process the consequences of the players turn
 }
-void Game::CalculateScore(){
+void Game::CalculateScore()
+{
     //calculate final score
 }
-void Game::End(){
+void Game::End()
+{
     game_status = unstarted;
 }

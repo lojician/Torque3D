@@ -9,8 +9,9 @@ int main(){
     
     while (!exit)
     {
-        std::string  input;      
-        std::cin >> input;
+        std::string  input;  
+        cout << "q to quit, s to start\n";
+        cin >> input;
         Game game;
         if (input == "q"){
             exit = true;

@@ -8,21 +8,25 @@ Board::Board(int x)
     Board::Clear();
 }
 
-void Board::PlacePiece(Position pos, point piece){
-    if (grid->at(pos.x, pos.y) == empty){
-        grid->at(pos.x, pos.y) = piece;
-    } else if (grid->at(pos.x, pos.y) == captured) {
+void Board::PlacePiece(Position pos, point piece)
+{
+    if (grid->at(pos) == empty){
+        grid->at(pos) = piece;
+    } else if (grid->at(pos) == captured) {
         //check if single piece captured
     }
 }
-void Board::RemovePiece(Position pos){
-     grid->at(pos.x, pos.y) = empty;
+void Board::RemovePiece(Position pos)
+{
+     grid->at(pos) = empty;
 }
-void Board::Clear(){
+void Board::Clear()
+{
     grid->clear();
 }
-point Board::PointCheck(Position pos){
- return grid->at(pos.x, pos.y);
+point Board::PointCheck(Position pos)
+{
+ return grid->at(pos);
 }
 
 

@@ -53,11 +53,10 @@ void Game::PlayerAction()
             //place piece where player specified
             cin >> pos.x >> pos.y;
             cout << pos.x << "\n" << valid <<"\n";
-            
-            
         } else {
             cout << "Invalid input\n";
         }
+        cout << "After if: " << valid << "\n";
     }
     
 }

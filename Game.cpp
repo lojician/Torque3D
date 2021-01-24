@@ -25,21 +25,24 @@ void Game::DetermineTurn()
 {
     if (active_player == 0){
         active_player = black;
+        cout << "It is blacks turn to act. \n";
     } else if (active_player == black)
     {
         active_player = white;
+        cout << "It is whites turn to act. \n";
     } else if (active_player == white)
     {
         active_player = black;
+        cout << "It is blacks turn to act. \n";
     }
 }
 void Game::PlayerAction()
 {
-    valid = false;
     //get player input
     std::string input; 
-    //bool valid = false;
     Position pos;
+    bool valid = false;
+    //run until valid input is entered
     while(!valid)
     {
         cout << "Do you want to play(p), or skip(s)\n";    
@@ -48,12 +51,19 @@ void Game::PlayerAction()
             valid = true;
         }else if (input == "p")
         {
-            cout << "enter the colunm and row number\n";
+            cout << "Enter the colunm and row number from 0 to " << (board_size - 1) << "\n";
             //place piece where player specified
             cin >> pos.x >> pos.y;
-            cout << pos.x << "\n";
-            valid = board->PlacePiece(pos, active_player);
-            cout << "Entry is " << valid << "\n";
+            if ((pos.x >= 0&& pos.x < board_size)&&(pos.y >= 0&& pos.y < board_size)){
+                 cout << pos.x << "\n";
+                valid = board->PlacePiece(pos, active_player);
+                if (!valid){
+                    cout << "The piece cannot be placed in that location\n";
+                }
+            } else { 
+                cout << "The location is outside the valid range\n";
+            }
+           
             
         } else {
             cout << "Invalid input\n";

@@ -7,10 +7,10 @@ Board::Board(int x)
     grid = new Array2D<point>(size,size);
     Board::Clear();
 }
-
 bool Board::PlacePiece(Position pos, point piece)
 {
     if (grid->at(pos) == empty){
+        //add logic to make sure piece would not be taken
         grid->at(pos) = piece;
         return true;
     } else if (grid->at(pos) == captured) {
@@ -19,6 +19,10 @@ bool Board::PlacePiece(Position pos, point piece)
     } else {
         return false;
     }
+}
+bool Board::CheckCapture(Position pos, point player)
+{
+    
 }
 void Board::RemovePiece(Position pos)
 {

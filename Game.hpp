@@ -7,7 +7,6 @@ private:
     Board *board;
     int board_size = 9;
     point active_player = empty;
-    bool valid = false;
 public:
     gameStatus game_status = unstarted;
     Game();

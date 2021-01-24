@@ -16,7 +16,7 @@ private:
 public:
     Board(int);
     ~Board();
-    void PlacePiece(Position, point);
+    bool PlacePiece(Position, point);
     void RemovePiece(Position);
     void Clear();
     point PointCheck(Position);

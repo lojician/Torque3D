@@ -35,6 +35,7 @@ void Game::DetermineTurn()
 }
 void Game::PlayerAction()
 {
+    valid = false;
     //get player input
     std::string input; 
     //bool valid = false;
@@ -47,15 +48,13 @@ void Game::PlayerAction()
             valid = true;
         }else if (input == "p")
         {
-            valid = true;
             cout << "enter the colunm and row number\n";
             //place piece where player specified
             cin >> pos.x >> pos.y;
             cout << pos.x << "\n";
-            cout << board->PointCheck(pos) << "\n";
-            board->PlacePiece(pos, active_player);
-            cout << board->PointCheck(pos) << "\n";
-
+            valid = board->PlacePiece(pos, active_player);
+            cout << "Entry is " << valid << "\n";
+            
         } else {
             cout << "Invalid input\n";
         }

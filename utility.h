@@ -6,12 +6,19 @@ auto& cout = std::cout;
 
 enum point {empty = 0, black = 1, white = 2, captured = 3};
 enum gameStatus {unstarted = 0, started = 1, player_acting = 2, processing_action = 3};
-struct Position{
+struct Position
+{
     unsigned int x = 0;
     unsigned int y = 0;
 };
+class Printer
+{
+
+};
+//Array 2D taking fron
 template <typename T>
-class Array2D {
+class Array2D 
+{
 private:
     T *array;
     unsigned int sizeX;

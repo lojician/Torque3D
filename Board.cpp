@@ -20,10 +20,6 @@ bool Board::PlacePiece(Position pos, point piece)
         return false;
     }
 }
-bool Board::CheckCapture(Position pos, point player)
-{
-    
-}
 void Board::RemovePiece(Position pos)
 {
      grid->at(pos) = empty;

@@ -5,7 +5,6 @@ bool Input::PassOrPlay(){
     while (true){
         cout << "Do you want to play(p), or skip(s)\n";    
         cin >> input;
-        cin.clear();
         clearBuffer();
         if (input == 'p'){
             return true;

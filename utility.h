@@ -10,7 +10,9 @@
 //Aliases for common functions
 auto& cin = std::cin;
 auto& cout = std::cout;
+using string = std::string;
 void clearBuffer(){
+    cin.clear();
     cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 }
 

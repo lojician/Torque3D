@@ -6,4 +6,7 @@ private:
     
 public:
     static bool PassOrPlay();
+    static char GetCharInput();
+    static string GetStringInput();
+    
 };

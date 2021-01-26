@@ -38,15 +38,15 @@ void Game::DetermineTurn()
 }
 void Game::PlayerAction()
 {
-    //get player input
-    std::string input; 
+    
     Position pos;
     bool valid = false;
     //run until valid input is entered
-    while(!valid)
+    bool play = Input::PassOrPlay();
+    if (play)
     {
-        bool play = Input::PassOrPlay();
-        if (play){
+        while(!valid)
+        {
             cout << "Enter the colunm and row number from 0 to " << (board_size - 1) << "\n";
             //place piece where player specified
             cin >> pos.x >> pos.y;
@@ -60,14 +60,9 @@ void Game::PlayerAction()
             } else { 
                 cout << "The location is outside the valid range\n";
             }
-        }else {
-            valid = true;
-            
-        }
-            
+        }     
         
     }
-    
 }
 void Game::ProcessTurn(Position pos)
 {

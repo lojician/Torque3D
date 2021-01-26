@@ -4,7 +4,6 @@
 
 // TODO: Create Board class
 //*b
-
 class Board
 { 
     

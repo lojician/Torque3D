@@ -7,6 +7,7 @@ Board::Board(int x)
     grid = new Array2D<point>(size,size);
     Board::Clear();
 }
+
 bool Board::PlacePiece(Position pos, point piece)
 {
     if (grid->at(pos) == empty){

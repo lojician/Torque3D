@@ -45,13 +45,8 @@ void Game::PlayerAction()
     //run until valid input is entered
     while(!valid)
     {
-        cout << "Do you want to play(p), or skip(s)\n";    
-        cin >> input;
-        cin.clear();
-        if (input == "s"){
-            valid = true;
-        }else if (input == "p")
-        {
+        bool play = Input::PassOrPlay();
+        if (play){
             cout << "Enter the colunm and row number from 0 to " << (board_size - 1) << "\n";
             //place piece where player specified
             cin >> pos.x >> pos.y;
@@ -65,11 +60,12 @@ void Game::PlayerAction()
             } else { 
                 cout << "The location is outside the valid range\n";
             }
-           
+        }else {
+            valid = true;
             
-        } else {
-            cout << "Invalid input: " << input << "\n";
         }
+            
+        
     }
     
 }

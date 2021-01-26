@@ -5,8 +5,9 @@ class Input
 private:
     
 public:
+    static char GetCharInput(string);
+    static string GetStringInput(string);
+    static int GetIntInput(string);
     static bool PassOrPlay();
-    static char GetCharInput();
-    static string GetStringInput();
-    
+    static Position GetPosition(int);
 };

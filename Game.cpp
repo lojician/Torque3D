@@ -38,29 +38,20 @@ void Game::DetermineTurn()
 }
 void Game::PlayerAction()
 {
-    
+    bool valid;
     Position pos;
-    bool valid = false;
     //run until valid input is entered
     bool play = Input::PassOrPlay();
     if (play)
     {
-        while(!valid)
-        {
-            cout << "Enter the colunm and row number from 0 to " << (board_size - 1) << "\n";
-            //place piece where player specified
-            cin >> pos.x >> pos.y;
-            cin.clear();
-            if ((pos.x >= 0&& pos.x < board_size)&&(pos.y >= 0&& pos.y < board_size)){
-                cout << pos.x << "\n";
-                valid = board->PlacePiece(pos, active_player);
-                if (!valid){
-                    cout << "The piece cannot be placed in that location\n";
-                }
-            } else { 
-                cout << "The location is outside the valid range\n";
+        pos = Input::GetPosition(board_size);
+        while(!valid){
+            valid = board->PlacePiece(pos, active_player);
+            if (!valid){
+                cout << "The piece cannot be placed in that location\n";
+                pos = Input::GetPosition(board_size);
             }
-        }     
+        }
         
     }
 }

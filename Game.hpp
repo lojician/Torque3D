@@ -1,6 +1,6 @@
 #pragma once
 #include "Board.hpp"
-#include "Input.cpp"
+#include "Input.hpp"
 class Game
 {     
 private:

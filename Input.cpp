@@ -1,4 +1,5 @@
 #include "Input.hpp"
+using namespace std;
 string Input::GetStringInput(string output){
     cout << output;
     string input;

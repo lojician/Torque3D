@@ -1,4 +1,6 @@
 #pragma once
+#ifndef UTILITY_H
+#define UTILITY_H
 
 #include <stdexcept>
 #include <iostream>
@@ -8,13 +10,9 @@
 #include<limits>  
 
 //Aliases for common functions
-auto& cin = std::cin;
-auto& cout = std::cout;
-using string = std::string;
-void clearBuffer(){
-    cin.clear();
-    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-}
+
+//using string = std::string;
+void clearBuffer();
 
 enum point {empty = 0, black = 1, white = 2, captured = 3};
 enum gameStatus {unstarted = 0, started = 1, player_acting = 2, processing_action = 3};
@@ -61,3 +59,4 @@ public:
         return array[pos.x * sizeX + pos.y];
     }
 };
+#endif // UTILITY_H

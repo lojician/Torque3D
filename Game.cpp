@@ -1,4 +1,5 @@
 #include "Game.hpp"
+using namespace std;
 Game::Game()
 {
     board = new Board(board_size);

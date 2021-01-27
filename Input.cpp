@@ -1,11 +1,11 @@
 #include "Input.hpp"
-string Input::GetStringInput(string output){
+string InteractionHandler::GetStringInput(string output){
     cout << output;
     string input;
     cin >> input;
     return input;
 }
-char Input::GetCharInput(string output){
+char InteractionHandler::GetCharInput(string output){
     cout << output;
     char input;
     cin >> input;
@@ -18,7 +18,7 @@ char Input::GetCharInput(string output){
     clearBuffer();
     return input;
 }
-int Input::GetIntInput(string output){
+int InteractionHandler::GetIntInput(string output){
     cout << output;
     int input;
     cin >> input;
@@ -32,7 +32,7 @@ int Input::GetIntInput(string output){
     return input;
 }
 
-bool Input::PassOrPlay(){
+bool InteractionHandler::PassOrPlay(){
     char input; 
     string pass_play_out = "Do you want to play(p), or skip(s)\n";  
     while (true){
@@ -48,7 +48,7 @@ bool Input::PassOrPlay(){
         }
     }
 }
-Position Input::GetPosition(int board_size){
+Position InteractionHandler::GetPosition(int board_size){
     bool valid = false;
     Position pos;
     string col_req = "Enter colunm number: ";

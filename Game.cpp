@@ -41,15 +41,15 @@ void Game::PlayerAction()
     bool valid = false;
     Position pos;
     //run until valid input is entered
-    bool play = Input::PassOrPlay();
+    bool play = InteractionHandler::PassOrPlay();
     if (play)
     {
-        pos = Input::GetPosition(board_size);
+        pos = InteractionHandler::GetPosition(board_size);
         while(!valid){
             valid = board->PlacePiece(pos, active_player);
             if (!valid){
                 cout << "The piece cannot be placed in that location\n";
-                pos = Input::GetPosition(board_size);
+                pos = InteractionHandler::GetPosition(board_size);
             }
         }
         

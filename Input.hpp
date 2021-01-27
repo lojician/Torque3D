@@ -1,6 +1,6 @@
 #pragma once
 #include "utility.h"
-class Input
+class InteractionHandler
 {
 private:
     

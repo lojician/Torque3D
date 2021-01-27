@@ -1,5 +1,4 @@
 #include "utility.h"
-using namespace std;
 //Aliases for common functions
 //using string = std::string;
 void clearBuffer(){

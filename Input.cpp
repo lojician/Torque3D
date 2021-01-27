@@ -1,12 +1,23 @@
 #include "Input.hpp"
-string InteractionHandler::GetStringInput(string output){
-    cout << output;
+char IO::StartEntry(){
+    //entry Question
+    string entryQ = "q to quit, s to start";
+    printLine(entryQ);
+    //entry Response
+    char entryR = getchar();
+    
+
+}
+string IO::GetStringInput(string output)
+{
+    printLine(output);
     string input;
     cin >> input;
     return input;
 }
-char InteractionHandler::GetCharInput(string output){
-    cout << output;
+char IO::GetCharInput(string output)
+{
+    printLine(output);
     char input;
     cin >> input;
     while(!cin.fail())
@@ -18,7 +29,8 @@ char InteractionHandler::GetCharInput(string output){
     clearBuffer();
     return input;
 }
-int InteractionHandler::GetIntInput(string output){
+int IO::GetIntInput(string output)
+{
     cout << output;
     int input;
     cin >> input;
@@ -32,7 +44,8 @@ int InteractionHandler::GetIntInput(string output){
     return input;
 }
 
-bool InteractionHandler::PassOrPlay(){
+bool IO::PassOrPlay()
+{
     char input; 
     string pass_play_out = "Do you want to play(p), or skip(s)\n";  
     while (true){
@@ -48,7 +61,8 @@ bool InteractionHandler::PassOrPlay(){
         }
     }
 }
-Position InteractionHandler::GetPosition(int board_size){
+Position IO::GetPosition(int board_size)
+{
     bool valid = false;
     Position pos;
     string col_req = "Enter colunm number: ";
@@ -69,4 +83,8 @@ Position InteractionHandler::GetPosition(int board_size){
             pos.y = GetIntInput(row_req);
         }
     }
+}
+void IO::TurnAnnouncement(string player)
+{
+    cout << "It is " << player <<" turn to act." << endl;
 }

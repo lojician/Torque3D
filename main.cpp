@@ -7,13 +7,11 @@ int main(){
     
     while (!exit)
     {
-        std::string  input;  
-        cout << "q to quit, s to start\n";
-        cin >> input;
+        char input = IO::StartEntry();
         Game game;
-        if (input == "q"){
+        if (input == 'q'){
             exit = true;
-        } else if ( input == "s"){
+        } else if ( input == 's'){
             game.Start();
         }
     }

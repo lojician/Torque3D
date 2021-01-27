@@ -25,15 +25,15 @@ void Game::DetermineTurn()
 {
     if (active_player == 0){
         active_player = black;
-        cout << "It is blacks turn to act. \n";
+        IO::TurnAnnouncement("black");
     } else if (active_player == black)
     {
         active_player = white;
-        cout << "It is whites turn to act. \n";
+        IO::TurnAnnouncement("white");
     } else if (active_player == white)
     {
         active_player = black;
-        cout << "It is blacks turn to act. \n";
+        IO::TurnAnnouncement("black");
     }
 }
 void Game::PlayerAction()
@@ -41,15 +41,15 @@ void Game::PlayerAction()
     bool valid = false;
     Position pos;
     //run until valid input is entered
-    bool play = InteractionHandler::PassOrPlay();
+    bool play = IO::PassOrPlay();
     if (play)
     {
-        pos = InteractionHandler::GetPosition(board_size);
+        pos = IO::GetPosition(board_size);
         while(!valid){
             valid = board->PlacePiece(pos, active_player);
             if (!valid){
-                cout << "The piece cannot be placed in that location\n";
-                pos = InteractionHandler::GetPosition(board_size);
+                cout << "The piece cannot be placed in that location" << endl;
+                pos = IO::GetPosition(board_size);
             }
         }
         

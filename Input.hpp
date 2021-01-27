@@ -1,13 +1,15 @@
 #pragma once
 #include "utility.h"
-class InteractionHandler
+class IO
 {
 private:
     
 public:
-    static char GetCharInput(std::string);
-    static std::string GetStringInput(std::string);
-    static int GetIntInput(std::string);
+    static char StartEntry();
+    static char GetCharInput(string);
+    static string GetStringInput(string);
+    static int GetIntInput(string);
     static bool PassOrPlay();
     static Position GetPosition(int);
+    static void TurnAnnouncement(string);
 };

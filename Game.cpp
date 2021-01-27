@@ -1,5 +1,4 @@
 #include "Game.hpp"
-using namespace std;
 Game::Game()
 {
     board = new Board(board_size);
@@ -39,7 +38,7 @@ void Game::DetermineTurn()
 }
 void Game::PlayerAction()
 {
-    bool valid;
+    bool valid = false;
     Position pos;
     //run until valid input is entered
     bool play = Input::PassOrPlay();

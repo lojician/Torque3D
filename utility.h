@@ -1,6 +1,4 @@
 #pragma once
-#ifndef UTILITY_H
-#define UTILITY_H
 
 #include <stdexcept>
 #include <iostream>
@@ -9,7 +7,11 @@
 // for numeric_limits 
 #include<limits>  
 
-//Aliases for common functions
+//Add common items to namespace
+using std::cout;
+using std::cin;
+using std::string;
+using std::endl;
 
 //using string = std::string;
 void clearBuffer();
@@ -59,4 +61,3 @@ public:
         return array[pos.x * sizeX + pos.y];
     }
 };
-#endif // UTILITY_H

@@ -1,5 +1,4 @@
 #include "Game.hpp"
-using namespace std;
 
 int main(){
     bool exit = false;

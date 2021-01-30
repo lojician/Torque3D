@@ -1,14 +1,15 @@
 #include "Board.hpp"
-
-Board::Board(int x)
+template <class T>
+Board<T>::Board(int x)
 {
     //initialize grid and make sure it's clear
     size = x;
-    grid = new Array2D<point>(size,size);
+    grid = new Array2D<T>(size,size);
     Board::Clear();
 }
 
-bool Board::PlacePiece(Position pos, point piece)
+template <class T>
+bool Board<T>::PlacePiece(Position pos, T piece)
 {
     if (grid->at(pos) == empty){
         //add logic to make sure piece would not be taken
@@ -21,21 +22,26 @@ bool Board::PlacePiece(Position pos, point piece)
         return false;
     }
 }
-void Board::RemovePiece(Position pos)
+
+template <class T>
+void Board<T>::RemovePiece(Position pos)
 {
      grid->at(pos) = empty;
 }
-void Board::Clear()
+template <class T>
+void Board<T>::Clear()
 {
     grid->clear();
 }
-point Board::PointCheck(Position pos)
+template <class T>
+T Board<T>::PointCheck(Position pos)
 {
  return grid->at(pos);
 }
 
 
-Board::~Board()
+template <class T>
+Board<T>::~Board()
 {
     delete[] grid;
 }

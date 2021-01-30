@@ -3,7 +3,8 @@
 class IO
 {
 private:
-    
+    static const string invalid_input;
+    static const string error_oor;
 public:
     static char StartEntry();
     static char GetCharInput(string);

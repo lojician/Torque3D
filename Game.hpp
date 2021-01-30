@@ -16,9 +16,9 @@ public:
     void Play();
     void DetermineTurn();
     void PlayerAction();
-    char GetInput();
     void ProcessTurn(Position);
     bool CheckCapture(Position, point);
+    bool CheckSurrounding(Position, point);
     void CalculateScore();
     void End();
 };

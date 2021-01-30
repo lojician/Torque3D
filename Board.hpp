@@ -4,21 +4,22 @@
 
 // TODO: Create Board class
 //*b
+template <typename T>
 class Board
 { 
     
 private:
     /* data */
     int size;
-    Array2D<point> *grid;
+    Array2D<T> *grid;
     
 public:
     Board(int);
     ~Board();
-    bool PlacePiece(Position, point);
+    bool PlacePiece(Position, T);
     void RemovePiece(Position);
     void Clear();
-    point PointCheck(Position);
+    T PointCheck(Position);
     
 
 };

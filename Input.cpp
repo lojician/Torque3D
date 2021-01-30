@@ -1,12 +1,16 @@
 #include "Input.hpp"
-char IO::StartEntry(){
+
+const string IO::invalid_input =  "Invalid input. Try Again.";
+const string IO::error_oor = "The location is outside the valid range.";
+
+char IO::StartEntry()
+{
     //entry Question
     string entryQ = "q to quit, s to start";
     printLine(entryQ);
     //entry Response
     char entryR = getchar();
-    
-
+    return entryR;
 }
 string IO::GetStringInput(string output)
 {
@@ -19,26 +23,22 @@ char IO::GetCharInput(string output)
 {
     printLine(output);
     char input;
-    cin >> input;
-    while(!cin.fail())
+    while(!(cin >> input))
     {   
         clearBuffer();
-        cout<< "You have entered wrong input.\n";
-        cin >> input;
+        printLine(invalid_input);
     }
     clearBuffer();
     return input;
 }
 int IO::GetIntInput(string output)
 {
-    cout << output;
+    printLine(output);
     int input;
-    cin >> input;
-    while(!cin.fail())
+    while(!(cin >> input))
     {   
         clearBuffer();
-        cout<< "You have entered wrong input.\n";
-        cin >> input;
+        printLine(invalid_input);
     }
     clearBuffer();
     return input;
@@ -57,7 +57,7 @@ bool IO::PassOrPlay()
             return false;
         }
         else {
-            cout << "Invalid input: " << input << "\n";
+            printLine(invalid_input);
         }
     }
 }
@@ -73,18 +73,19 @@ Position IO::GetPosition(int board_size)
         //place piece where player specified
         pos.x = GetIntInput(col_req);
         pos.y = GetIntInput(row_req);
-        if ((pos.x >= 0&& pos.x < board_size)&&(pos.y >= 0&& pos.y < board_size)){
+        if ((pos.x >= 0 && pos.x < board_size)&&(pos.y >= 0&& pos.y < board_size)){
             return pos;
-        } else if(pos.x < 0&& pos.x >= board_size){ 
-            cout << "The location is outside the valid range\n";
+        } else if(pos.x < 0 && pos.x >= board_size){ 
+            printLine(error_oor);
             pos.x = GetIntInput(col_req);
-        } else if(pos.y < 0&& pos.y >= board_size){ 
-            cout << "The location is outside the valid range\n";
+        } else if(pos.y < 0 && pos.y >= board_size){ 
+            printLine(error_oor);
             pos.y = GetIntInput(row_req);
         }
     }
 }
 void IO::TurnAnnouncement(string player)
 {
-    cout << "It is " << player <<" turn to act." << endl;
+    string AnnounceTurn = "It is " + player + " turn to act.";
+    printLine(AnnounceTurn);
 }

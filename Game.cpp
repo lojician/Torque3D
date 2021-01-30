@@ -55,6 +55,20 @@ void Game::PlayerAction()
         
     }
 }
+bool Game::CheckCapture(Position pos, point piece){
+
+}
+bool Game::CheckSurrounding(Position pos, point piece){
+    if(!(pos.y == 0)){
+        Position above = pos;
+        above.y -= 1;
+
+    }
+    //for (int i = 0; i < 4; i++){
+        
+    //}
+ 
+}
 void Game::ProcessTurn(Position pos)
 {
     //process the consequences of the players turn

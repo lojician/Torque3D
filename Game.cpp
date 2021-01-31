@@ -63,10 +63,21 @@ bool Game::CheckSurrounding(Position pos, point piece){
     if(!(pos.y == 0)){
         Position above = pos;
         above.y -= 1;
+        sur_points.above = board->PointCheck(above);
+    } else if(!(pos.y == (board_size -1))){
+        Position below = pos;
+        below.y += 1;
+        sur_points.below = board->PointCheck(below);
     }
-    //for (int i = 0; i < 4; i++){
-        
-    //}
+    if(!(pos.x == 0)){
+        Position left = pos;
+        left.x -= 1;
+        sur_points.left = board->PointCheck(left);
+    } else if(!(pos.x == (board_size -1))){
+        Position right = pos;
+        right.x += 1;
+        sur_points.right = board->PointCheck(right);
+    }
  
 }
 void Game::ProcessTurn(Position pos)

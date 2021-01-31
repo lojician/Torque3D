@@ -7,34 +7,30 @@ char IO::StartEntry()
 {
     //entry Question
     string entryQ = "q to quit, s to start";
-    printLine(entryQ);
     //entry Response
-    char entryR = getchar();
+    char entryR = GetCharInput(entryQ);
     return entryR;
 }
 string IO::GetStringInput(string output)
 {
     printLine(output);
-    string input;
-    cin >> input;
-    return input;
+    string type;
+    return GetInput(type);
 }
 char IO::GetCharInput(string output)
 {
     printLine(output);
-    char input;
-    while(!(cin >> input))
-    {   
-        clearBuffer();
-        printLine(invalid_input);
-    }
-    clearBuffer();
-    return input;
+    char type;
+    return GetInput(type);
 }
 int IO::GetIntInput(string output)
 {
     printLine(output);
-    int input;
+    int type;
+    return GetInput(type);
+}
+template <typename T> 
+T IO::GetInput(T input){
     while(!(cin >> input))
     {   
         clearBuffer();
@@ -43,7 +39,6 @@ int IO::GetIntInput(string output)
     clearBuffer();
     return input;
 }
-
 bool IO::PassOrPlay()
 {
     char input; 

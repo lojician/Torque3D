@@ -17,12 +17,19 @@ using std::endl;
 void clearBuffer();
 void printLine(string);
 
-enum point {empty = 0, black = 1, white = 2, captured = 3};
+enum point {empty = 0, black = 1, white = 2};
 enum gameStatus {unstarted = 0, started = 1, player_acting = 2, processing_action = 3};
 struct Position
 {
-    unsigned int x = 0;
-    unsigned int y = 0;
+    unsigned int x = -1;
+    unsigned int y = -1;
+};
+struct SurroundingPoints
+{
+   point above;
+   point below;
+   point right;
+   point left;
 };
 //Array 2D taking fron
 template <typename T>

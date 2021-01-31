@@ -1,9 +1,5 @@
 #pragma once
 #include "utility.h"
-
-
-// TODO: Create Board class
-//*b
 template <typename T>
 class Board
 { 

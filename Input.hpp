@@ -11,6 +11,8 @@ public:
     static string GetStringInput(string);
     static int GetIntInput(string);
     static bool PassOrPlay();
+    template <typename T> 
+    static T GetInput(T);
     static Position GetPosition(int);
     static void TurnAnnouncement(string);
 };

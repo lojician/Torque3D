@@ -5,7 +5,7 @@ Board<T>::Board(int x)
     //initialize grid and make sure it's clear
     size = x;
     grid = new Array2D<T>(size,size);
-    Board::Clear();
+    Clear();
 }
 
 template <class T>
@@ -15,9 +15,6 @@ bool Board<T>::PlacePiece(Position pos, T piece)
         //add logic to make sure piece would not be taken
         grid->at(pos) = piece;
         return true;
-    } else if (grid->at(pos) == captured) {
-        //check if single piece captured
-        return false;
     } else {
         return false;
     }
@@ -45,3 +42,4 @@ Board<T>::~Board()
 {
     delete[] grid;
 }
+template class Board<point>;

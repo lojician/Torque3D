@@ -1,11 +1,15 @@
 #pragma once
 #include "Board.hpp"
 #include "Input.hpp"
+
+// TODO: Add ability to play different kinds of games
+// TODO: Add menu
+// TODO: Finish adding go rules
 class Game
 {     
 private:
     /* data */
-    Board *board;
+    Board<point> *board;
     int board_size = 9;
     point active_player = empty;
 public:

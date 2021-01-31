@@ -1,7 +1,7 @@
 #include "Game.hpp"
 Game::Game()
 {
-    board = new Board(board_size);
+    board = new Board<point>(board_size);
 }
 Game::~Game()
 {
@@ -59,10 +59,10 @@ bool Game::CheckCapture(Position pos, point piece){
 
 }
 bool Game::CheckSurrounding(Position pos, point piece){
+    SurroundingPoints sur_points;
     if(!(pos.y == 0)){
         Position above = pos;
         above.y -= 1;
-
     }
     //for (int i = 0; i < 4; i++){
         

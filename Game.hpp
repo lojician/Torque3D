@@ -12,6 +12,8 @@ private:
     Board<point> *board;
     int board_size = 9;
     point active_player = empty;
+    Position captured;
+    
 public:
     gameStatus game_status = unstarted;
     Game();

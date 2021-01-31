@@ -9,6 +9,7 @@ private:
     int size;
     Array2D<T> *grid;
     
+    
 public:
     Board(int);
     ~Board();

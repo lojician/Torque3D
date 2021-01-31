@@ -1,4 +1,8 @@
 #include "Game.hpp"
+
+#include <vector>
+using std::vector;
+
 Game::Game()
 {
     board = new Board<point>(board_size);
@@ -46,7 +50,9 @@ void Game::PlayerAction()
     {
         pos = IO::GetPosition(board_size);
         while(!valid){
-            valid = board->PlacePiece(pos, active_player);
+            if(pos == captured){
+                valid = board->PlacePiece(pos, active_player);
+            }
             if (!valid){
                 cout << "The piece cannot be placed in that location" << endl;
                 pos = IO::GetPosition(board_size);
@@ -55,10 +61,13 @@ void Game::PlayerAction()
         
     }
 }
-bool Game::CheckCapture(Position pos, point piece){
+bool Game::CheckCapture(Position pos, point piece)
+{
 
 }
-bool Game::CheckSurrounding(Position pos, point piece){
+bool Game::CheckSurrounding(Position pos, point piece)
+{
+
     SurroundingPoints sur_points;
     if(!(pos.y == 0)){
         Position above = pos;
@@ -78,7 +87,6 @@ bool Game::CheckSurrounding(Position pos, point piece){
         right.x += 1;
         sur_points.right = board->PointCheck(right);
     }
- 
 }
 void Game::ProcessTurn(Position pos)
 {

@@ -23,6 +23,9 @@ struct Position
 {
     unsigned int x = -1;
     unsigned int y = -1;
+    bool operator==(const Position& other) const {
+        return x == other.x && y == other.y;
+    }
 };
 struct SurroundingPoints
 {

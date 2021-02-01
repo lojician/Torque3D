@@ -30,7 +30,8 @@ int IO::GetIntInput(string output)
     return GetInput(type);
 }
 template <typename T> 
-T IO::GetInput(T input){
+T IO::GetInput(T input)
+{
     while(!(cin >> input))
     {   
         clearBuffer();

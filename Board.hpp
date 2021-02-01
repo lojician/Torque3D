@@ -17,6 +17,6 @@ public:
     void RemovePiece(Position);
     void Clear();
     T PointCheck(Position);
-    
+    T CheckRelative(Position, char, int);
 
 };

@@ -21,18 +21,40 @@ enum point {empty = 0, black = 1, white = 2};
 enum gameStatus {unstarted = 0, started = 1, player_acting = 2, processing_action = 3};
 struct Position
 {
-    unsigned int x = -1;
-    unsigned int y = -1;
+    int x = 0;
+    int y = 0;
+
+    // default + parameterized constructor
+    Position(int x=0, int y=0) 
+        : x(x), y(y)
+    {
+    }
+    
+    Position operator+=(const Position& a)
+    {
+        x += a.x;
+        y += a.y;
+        return *this;
+    }
+    
+    Position operator+(const Position& a) const
+    {
+        return Position(a.x+x, a.y+y);
+    }
+
+    
+
     bool operator==(const Position& other) const {
         return x == other.x && y == other.y;
     }
+
 };
-struct SurroundingPoints
+struct SurroundingPositions
 {
-   point above;
-   point below;
-   point right;
-   point left;
+   Position above = {0,-1};
+   Position below = {0,-1};
+   Position right = {0,-1};
+   Position left = {0,-1};
 };
 //Array 2D taking fron
 template <typename T>

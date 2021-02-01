@@ -23,7 +23,7 @@ bool Board<T>::PlacePiece(Position pos, T piece)
 template <class T>
 void Board<T>::RemovePiece(Position pos)
 {
-     grid->at(pos) = empty;
+    grid->at(pos) = empty;
 }
 template <class T>
 void Board<T>::Clear()
@@ -33,9 +33,14 @@ void Board<T>::Clear()
 template <class T>
 T Board<T>::PointCheck(Position pos)
 {
- return grid->at(pos);
+    return grid->at(pos);
 }
 
+template <class T>
+T Board<T>::CheckRelative(Position pos, char axi, int offset)
+{
+    
+}
 
 template <class T>
 Board<T>::~Board()

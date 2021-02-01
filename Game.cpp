@@ -67,25 +67,25 @@ bool Game::CheckCapture(Position pos, point piece)
 }
 bool Game::CheckSurrounding(Position pos, point piece)
 {
-
-    SurroundingPoints sur_points;
+    Board<bool> checked_board(board_size);
+    SurroundingPositions sur_pos;
+    point sur_points[4];
     if(!(pos.y == 0)){
-        Position above = pos;
-        above.y -= 1;
-        sur_points.above = board->PointCheck(above);
+        sur_pos.above += pos;
+        sur_points[0]= board->PointCheck(sur_pos.above); 
     } else if(!(pos.y == (board_size -1))){
-        Position below = pos;
-        below.y += 1;
-        sur_points.below = board->PointCheck(below);
+        sur_pos.below += pos;
+        sur_points[1] = board->PointCheck(sur_pos.below);
     }
     if(!(pos.x == 0)){
-        Position left = pos;
-        left.x -= 1;
-        sur_points.left = board->PointCheck(left);
+        sur_pos.left+= pos;
+        sur_points[2] = board->PointCheck(sur_pos.left);
     } else if(!(pos.x == (board_size -1))){
-        Position right = pos;
-        right.x += 1;
-        sur_points.right = board->PointCheck(right);
+        sur_pos.right += pos;
+        sur_points[3] = board->PointCheck(sur_pos.right);
+    }
+    for(auto& x: sur_points){
+        
     }
 }
 void Game::ProcessTurn(Position pos)

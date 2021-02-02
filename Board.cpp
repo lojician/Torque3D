@@ -25,11 +25,13 @@ void Board<T>::RemovePiece(Position pos)
 {
     grid->at(pos) = empty;
 }
+
 template <class T>
 void Board<T>::Clear()
 {
     grid->clear();
 }
+
 template <class T>
 T Board<T>::PointCheck(Position pos)
 {

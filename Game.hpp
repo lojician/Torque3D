@@ -13,7 +13,7 @@ private:
     int board_size = 9;
     point active_player = empty;
     Position captured;
-    
+    Board<bool> *checked_board;
 public:
     gameStatus game_status = unstarted;
     Game();

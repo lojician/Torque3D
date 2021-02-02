@@ -52,9 +52,9 @@ struct Position
 struct SurroundingPositions
 {
    Position above = {0,-1};
-   Position below = {0,-1};
-   Position right = {0,-1};
-   Position left = {0,-1};
+   Position below = {0,1};
+   Position right = {1,0};
+   Position left = {-1,0};
 };
 //Array 2D taking fron
 template <typename T>
@@ -83,7 +83,7 @@ public:
     
         for (i = 0; i < size; ++i)
         {
-            array[i] = empty;
+            array[i] = static_cast<T>(0);
         }
     }
 

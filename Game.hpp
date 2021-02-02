@@ -25,7 +25,7 @@ public:
     void ProcessTurn(Position);
     bool CheckCapture(Position, point);
     bool CheckSurrounding(Position, point);
-    bool CheckOffset(Position, Position, point);
+    bool CheckOffset(Position, Position, point&);
     void CalculateScore();
     void End();
 };

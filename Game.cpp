@@ -99,7 +99,7 @@ bool Game::CheckSurrounding(Position pos, point piece)
     }
 }
 
-bool Game::CheckOffset(Position pos, Position offset, point p){
+bool Game::CheckOffset(Position pos, Position offset, point &p){
     pos += offset;
     if(!(checked_board->PointCheck(pos)))
     {

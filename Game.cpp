@@ -73,27 +73,40 @@ bool Game::CheckSurrounding(Position pos, point piece)
     point sur_points[4];
     int i = 0;
     if(!(pos.y == 0)){
-        sur_pos.above += pos;
-        if(!(checked_board->PointCheck(sur_pos.above)))
+        if (CheckOffset(pos, sur_pos.above, sur_points[i]))
         {
-            sur_points[i++]= board->PointCheck(sur_pos.above);
-        } 
+            i++;
+        }
     } else if(!(pos.y == (board_size -1))){
-        sur_pos.below += pos;
-        if(!(checked_board->PointCheck(sur_pos.below)))
-            sur_points[i++] = board->PointCheck(sur_pos.below);
+        if (CheckOffset(pos, sur_pos.below, sur_points[i]))
+        {
+            i++;
+        }
     }
     if(!(pos.x == 0)){
-        sur_pos.left+= pos;
-        if(!(checked_board->PointCheck(sur_pos.left)))
-            sur_points[i++] = board->PointCheck(sur_pos.left);
+        if (CheckOffset(pos, sur_pos.left, sur_points[i]))
+        {
+            i++;
+        }
     } else if(!(pos.x == (board_size -1))){
-        sur_pos.right += pos;
-        if(!(checked_board->PointCheck(sur_pos.right)))
-            sur_points[i++] = board->PointCheck(sur_pos.right);
+        if (CheckOffset(pos, sur_pos.right, sur_points[i]))
+        {
+            i++;
+        }
     }
     for(auto& x: sur_points){
         
+    }
+}
+
+bool Game::CheckOffset(Position pos, Position offset, point p){
+    pos += offset;
+    if(!(checked_board->PointCheck(pos)))
+    {
+        p = board->PointCheck(pos);
+        return true;
+    } else {
+        return false;
     }
 }
 void Game::ProcessTurn(Position pos)

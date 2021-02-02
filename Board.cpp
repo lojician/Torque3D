@@ -50,3 +50,4 @@ Board<T>::~Board()
     delete[] grid;
 }
 template class Board<point>;
+template class Board<bool>;

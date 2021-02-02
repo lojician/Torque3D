@@ -51,9 +51,11 @@ void Game::PlayerAction()
     {
         pos = IO::GetPosition(board_size);
         while(!valid){
-            if(pos == captured){
+
+            if(pos != captured && CheckSurrounding(pos, active_player)){
                 valid = board->PlacePiece(pos, active_player);
             }
+            
             if (!valid){
                 cout << "The piece cannot be placed in that location" << endl;
                 pos = IO::GetPosition(board_size);
@@ -72,30 +74,46 @@ bool Game::CheckSurrounding(Position pos, point piece)
     SurroundingPositions sur_pos;
     point sur_points[4];
     int i = 0;
-    if(!(pos.y == 0)){
+    if(pos.y == 0){
+        if (CheckOffset(pos, sur_pos.below, sur_points[i]))
+        {
+            i++;
+        }
+       
+    } else if(pos.y == (board_size -1)){
         if (CheckOffset(pos, sur_pos.above, sur_points[i]))
         {
             i++;
         }
-    } else if(!(pos.y == (board_size -1))){
+    } else {
+        if (CheckOffset(pos, sur_pos.above, sur_points[i]))
+        {
+            i++;
+        }
         if (CheckOffset(pos, sur_pos.below, sur_points[i]))
         {
             i++;
         }
     }
-    if(!(pos.x == 0)){
-        if (CheckOffset(pos, sur_pos.left, sur_points[i]))
-        {
-            i++;
-        }
-    } else if(!(pos.x == (board_size -1))){
+    if(pos.x == 0){
         if (CheckOffset(pos, sur_pos.right, sur_points[i]))
         {
             i++;
         }
-    }
-    for(auto& x: sur_points){
-        
+    } else if(pos.x == (board_size -1)){
+        if (CheckOffset(pos, sur_pos.left, sur_points[i]))
+        {
+            i++;
+        }
+    }else {
+        if (CheckOffset(pos, sur_pos.right, sur_points[i]))
+        {
+            i++;
+        }
+        if (CheckOffset(pos, sur_pos.left, sur_points[i]))
+        {
+            i++;
+        }
     }
 }
 

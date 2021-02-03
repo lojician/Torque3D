@@ -71,7 +71,7 @@ bool Game::CheckSucidide(Position pos){
         //holds the array size for *enemies
         size_t num_enemies;
         point enemy = static_cast<point>(active_player * -1);
-        Position *enemies = GetPositionsForPiece(pos, enemy, num_enemies);
+        Position *enemies = board->GetPositionsForElem(pos, enemy, num_enemies);
         //check capture of surrounding enemies
         for (size_t i; i < num_enemies; i++)
         {
@@ -84,165 +84,9 @@ bool Game::CheckCapture(Position pos, point piece)
     //look for first empty space amongst connected friendlies
 
 }
-point * Game::GetAllSurroundingPoints(Position pos)
-{
-    SurroundingPositions sur_pos;
-    point sur_points[4];
-    int i = 0;
-    if(pos.y == 0){
-        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
-        {
-            i++;
-        }
-       
-    } else if(pos.y == (board_size -1)){
-        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
-        {
-            i++;
-        }
-    } else {
-        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
-        {
-            i++;
-        }
-    }
-    if(pos.x == 0){
-        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
-        {
-            i++;
-        }
-    } else if(pos.x == (board_size -1)){
-        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
-        {
-            i++;
-        }
-    }else {
-        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
-        {
-            i++;
-        }
-    }
-    point returning_points[(i-1)];
-    for (int j = 0; j<i; j++){
-        returning_points[j] = sur_points[j];
-    }
-    return returning_points;
-}
 
-Position * Game::GetPositionsForPiece(Position pos, point piece, size_t& arraySize)
-{
-    SurroundingPositions sur_pos;
-    point sur_points[4];
-    int i = 0;
-    if(pos.y == 0){
-        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
-        {
-            i++;
-        }
-       
-    } else if(pos.y == (board_size -1)){
-        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
-        {
-            i++;
-        }
-    } else {
-        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
-        {
-            i++;
-        }
-    }
-    if(pos.x == 0){
-        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
-        {
-            i++;
-        }
-    } else if(pos.x == (board_size -1)){
-        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
-        {
-            i++;
-        }
-    }else {
-        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
-        {
-            i++;
-        }
-    }
-    arraySize = (i);
-    point returning_points[(i-1)];
-    for (int j = 0; j<i; j++){
-        returning_points[j] = sur_points[j];
-    }
-    return returning_points;
-}
-point * Game::GetSurroundingPoints(Position pos, point piece, size_t& arraySize)
-{
-    SurroundingPositions sur_pos;
-    point sur_points[4];
-    int i = 0;
-    if(pos.y == 0){
-        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
-        {
-            i++;
-        }
-       
-    } else if(pos.y == (board_size -1)){
-        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
-        {
-            i++;
-        }
-    } else {
-        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
-        {
-            i++;
-        }
-    }
-    if(pos.x == 0){
-        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
-        {
-            i++;
-        }
-    } else if(pos.x == (board_size -1)){
-        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
-        {
-            i++;
-        }
-    }else {
-        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
-        {
-            i++;
-        }
-    }
-    arraySize = (i);
-    point returning_points[(i-1)];
-    for (int j = 0; j<i; j++){
-        returning_points[j] = sur_points[j];
-    }
-    return returning_points;
-}
+
+
 bool Game::CheckSurrounded(Position pos, point piece)
 {
     
@@ -268,6 +112,7 @@ bool Game::GetOffsetPiece(Position pos, Position offset, point &p)
         return false;
     }
 }
+
 void Game::ProcessTurn(Position pos)
 {
     //process the consequences of the players turn

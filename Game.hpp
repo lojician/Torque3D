@@ -26,10 +26,6 @@ public:
     bool CheckCapture(Position, point);
     bool CheckSucidide(Position);
     bool OffsetChecked(Position, Position);
-    Position * GetPositionsForPiece(Position,point, size_t&);
-    point * GetSurroundingPoints(Position,point, size_t&);
-    Position * GetAllSurroundingPositions(Position);
-    point * GetAllSurroundingPoints(Position);
     bool CheckSurrounded(Position,point);
     bool GetOffsetPiece(Position, Position, point&);
     void CalculateScore();

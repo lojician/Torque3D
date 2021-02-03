@@ -15,8 +15,15 @@ public:
     ~Board();
     bool PlacePiece(Position, T);
     void RemovePiece(Position);
-    void Clear();
     T PointCheck(Position);
-    T CheckRelative(Position, char, int);
+    void Clear();
+    int CountSurroundingOf(Position, T);
+    BoundaryChecker BoundsCheck(Position);
+    Position * GetAllSurroundingPositions(Position);
+    T * GetAllSurroundingElem(Position);
+    Position * GetPositionsForElem(Position, T, size_t&);
+    T GetOffsetPiece(Position, Position);
+    bool CheckOffsetPiece(Position, Position, T&);
+    
 
 };

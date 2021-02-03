@@ -53,10 +53,18 @@ struct Position
 };
 struct SurroundingPositions
 {
-   Position above = {0,-1};
-   Position below = {0,1};
-   Position right = {1,0};
-   Position left = {-1,0};
+    Position above = {0,-1};
+    Position below = {0,1};
+    Position right = {1,0};
+    Position left = {-1,0};
+};
+struct BoundaryChecker
+{
+    bool dir[4] = {true};
+    bool * above = &dir[0];
+    bool * below = &dir[1];
+    bool right = &dir[2];
+    bool left = &dir[4];
 };
 //Array 2D taking fron
 template <typename T>

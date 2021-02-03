@@ -14,6 +14,7 @@ Game::~Game()
 }
 void Game::Start()
 {
+    captured = {-1, -1};
     game_status = started;
     Play();
 }
@@ -52,7 +53,7 @@ void Game::PlayerAction()
         pos = IO::GetPosition(board_size);
         while(!valid){
 
-            if(pos != captured && CheckSurrounding(pos, active_player)){
+            if( pos != captured && !(CheckSucidide(pos)) ){
                 valid = board->PlacePiece(pos, active_player);
             }
             
@@ -64,60 +65,200 @@ void Game::PlayerAction()
         
     }
 }
+bool Game::CheckSucidide(Position pos){
+    if(CheckSurrounded(pos, active_player))
+    {
+        //holds the array size for *enemies
+        size_t num_enemies;
+        point enemy = static_cast<point>(active_player * -1);
+        Position *enemies = GetPositionsForPiece(pos, enemy, num_enemies);
+        //check capture of surrounding enemies
+        for (size_t i; i < num_enemies; i++)
+        {
+            CheckCapture();
+        }
+    }
+}
 bool Game::CheckCapture(Position pos, point piece)
 {
+    //look for first empty space amongst connected friendlies
 
 }
-bool Game::CheckSurrounding(Position pos, point piece)
+point * Game::GetAllSurroundingPoints(Position pos)
 {
-    
     SurroundingPositions sur_pos;
     point sur_points[4];
     int i = 0;
     if(pos.y == 0){
-        if (CheckOffset(pos, sur_pos.below, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
         {
             i++;
         }
        
     } else if(pos.y == (board_size -1)){
-        if (CheckOffset(pos, sur_pos.above, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
         {
             i++;
         }
     } else {
-        if (CheckOffset(pos, sur_pos.above, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
         {
             i++;
         }
-        if (CheckOffset(pos, sur_pos.below, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
         {
             i++;
         }
     }
     if(pos.x == 0){
-        if (CheckOffset(pos, sur_pos.right, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
         {
             i++;
         }
     } else if(pos.x == (board_size -1)){
-        if (CheckOffset(pos, sur_pos.left, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
         {
             i++;
         }
     }else {
-        if (CheckOffset(pos, sur_pos.right, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
         {
             i++;
         }
-        if (CheckOffset(pos, sur_pos.left, sur_points[i]))
+        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
         {
             i++;
         }
     }
+    point returning_points[(i-1)];
+    for (int j = 0; j<i; j++){
+        returning_points[j] = sur_points[j];
+    }
+    return returning_points;
 }
 
-bool Game::CheckOffset(Position pos, Position offset, point &p){
+Position * Game::GetPositionsForPiece(Position pos, point piece, size_t& arraySize)
+{
+    SurroundingPositions sur_pos;
+    point sur_points[4];
+    int i = 0;
+    if(pos.y == 0){
+        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
+        {
+            i++;
+        }
+       
+    } else if(pos.y == (board_size -1)){
+        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
+        {
+            i++;
+        }
+    } else {
+        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
+        {
+            i++;
+        }
+        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
+        {
+            i++;
+        }
+    }
+    if(pos.x == 0){
+        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
+        {
+            i++;
+        }
+    } else if(pos.x == (board_size -1)){
+        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
+        {
+            i++;
+        }
+    }else {
+        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
+        {
+            i++;
+        }
+        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
+        {
+            i++;
+        }
+    }
+    arraySize = (i);
+    point returning_points[(i-1)];
+    for (int j = 0; j<i; j++){
+        returning_points[j] = sur_points[j];
+    }
+    return returning_points;
+}
+point * Game::GetSurroundingPoints(Position pos, point piece, size_t& arraySize)
+{
+    SurroundingPositions sur_pos;
+    point sur_points[4];
+    int i = 0;
+    if(pos.y == 0){
+        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
+        {
+            i++;
+        }
+       
+    } else if(pos.y == (board_size -1)){
+        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
+        {
+            i++;
+        }
+    } else {
+        if (GetOffsetPiece(pos, sur_pos.above, sur_points[i]))
+        {
+            i++;
+        }
+        if (GetOffsetPiece(pos, sur_pos.below, sur_points[i]))
+        {
+            i++;
+        }
+    }
+    if(pos.x == 0){
+        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
+        {
+            i++;
+        }
+    } else if(pos.x == (board_size -1)){
+        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
+        {
+            i++;
+        }
+    }else {
+        if (GetOffsetPiece(pos, sur_pos.right, sur_points[i]))
+        {
+            i++;
+        }
+        if (GetOffsetPiece(pos, sur_pos.left, sur_points[i]))
+        {
+            i++;
+        }
+    }
+    arraySize = (i);
+    point returning_points[(i-1)];
+    for (int j = 0; j<i; j++){
+        returning_points[j] = sur_points[j];
+    }
+    return returning_points;
+}
+bool Game::CheckSurrounded(Position pos, point piece)
+{
+    
+}
+bool Game::OffsetChecked(Position pos, Position offset)
+{
+    pos += offset;
+    if(!(checked_board->PointCheck(pos)))
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
+bool Game::GetOffsetPiece(Position pos, Position offset, point &p)
+{
     pos += offset;
     if(!(checked_board->PointCheck(pos)))
     {

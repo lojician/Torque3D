@@ -25,9 +25,7 @@ public:
     void ProcessTurn(Position);
     bool CheckCapture(Position, point);
     bool CheckSucidide(Position);
-    bool OffsetChecked(Position, Position);
     bool CheckSurrounded(Position,point);
-    bool GetOffsetPiece(Position, Position, point&);
     void CalculateScore();
     void End();
 };

@@ -45,43 +45,33 @@ int Board<T>::CountSurroundingOf(Position pos, T piece)
     SurroundingOffsets sur_pos;
     T sur_elem[4];
     int i = 0;
-    if(pos.y == 0){
-        if (CheckOffsetPiece(pos, sur_pos.below, sur_elem[i]))
+    SBPosition bounded_pos;
+    BoundaryChecker inbounds = BoundsCheck(pos);
+    
+    if(inbounds.below)
+    {
+        if (CheckOffsetElem(pos, sur_pos.below, piece))
         {
             i++;
         }
-       
-    } else if(pos.y == (size -1)){
-        if (CheckOffsetPiece(pos, sur_pos.above, sur_elem[i]))
+    } 
+    if(inbounds.above)
+    {
+        if (CheckOffsetElem(pos, sur_pos.above, piece))
         {
             i++;
         }
-    } else {
-        if (CheckOffsetPiece(pos, sur_pos.above, sur_elem[i]))
+    } 
+    if(inbounds.right)
+    {
+        if (CheckOffsetElem(pos, sur_pos.right, piece))
         {
             i++;
         }
-        if (CheckOffsetPiece(pos, sur_pos.below, sur_elem[i]))
-        {
-            i++;
-        }
-    }
-    if(pos.x == 0){
-        if (CheckOffsetPiece(pos, sur_pos.right, sur_elem[i]))
-        {
-            i++;
-        }
-    } else if(pos.x == (size -1)){
-        if (CheckOffsetPiece(pos, sur_pos.left, sur_elem[i]))
-        {
-            i++;
-        }
-    }else {
-        if (CheckOffsetPiece(pos, sur_pos.right, sur_elem[i]))
-        {
-            i++;
-        }
-        if (CheckOffsetPiece(pos, sur_pos.left, sur_elem[i]))
+    } 
+    if(inbounds.left)
+    {
+        if (CheckOffsetElem(pos, sur_pos.left, piece))
         {
             i++;
         }
@@ -195,10 +185,11 @@ Position * Board<T>::GetPositionsForElem(Position pos, T piece, size_t& arraySiz
         sur_elem_pos[i++] = sur_pos.left;
     }
     arraySize = (i);
-    Position returning_elems[(i-1)];
+    Position* returning_elems = new Position[(i-1)];
     for (int j = 0; j<i; j++){
         returning_elems[j] = sur_elem_pos[j];
     }
+    //make sure to delete
     return returning_elems;
 }
 
@@ -210,13 +201,12 @@ T Board<T>::GetOffsetPiece(Position pos, Position offset)
 }
 
 template <class T>
-bool Board<T>::CheckOffsetPiece(Position pos, Position offset, T &elem)
+bool Board<T>::CheckOffsetElem(Position pos, Position offset, T elem)
 { 
     pos += offset;
-    if(!(checked->at(pos)))
+    if(!(checked->at(pos)) && (PointCheck(pos) == elem))
     {
-        elem = PointCheck(pos);
-        return true;
+        return true;    
     } else {
         return false;
     }

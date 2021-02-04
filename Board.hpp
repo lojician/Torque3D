@@ -23,7 +23,7 @@ public:
     T * GetAllSurroundingElem(Position);
     Position * GetPositionsForElem(Position, T, size_t&);
     T GetOffsetPiece(Position, Position);
-    bool CheckOffsetPiece(Position, Position, T&);
+    bool CheckOffsetElem(Position, Position, T);
     
 
 };

@@ -51,17 +51,29 @@ struct Position
     }
 
 };
-struct SurroundingPosition
+struct BoundPosition
 {
-   Position sur;
+   Position pos;
    bool inbounds;
 };
+
+//surrounding bound positions
+struct SBPosition
+{
+ BoundPosition boundPositions[4];
+ BoundPosition &above = boundPositions[0];
+ BoundPosition &below = boundPositions[1];
+ BoundPosition &left = boundPositions[2];
+ BoundPosition &right = boundPositions[3];
+};
+
+
 struct SurroundingOffsets
 {
-    Position above = {0,-1};
-    Position below = {0,1};
-    Position left = {-1,0};
-    Position right = {1,0};
+    const Position above = {0,-1};
+    const Position below = {0,1};
+    const Position left = {-1,0};
+    const Position right = {1,0};
     
 };
 struct BoundaryChecker

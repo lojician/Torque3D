@@ -53,7 +53,7 @@ void Game::PlayerAction()
         pos = IO::GetPosition(board_size);
         while(!valid){
 
-            if( pos != captured && !(CheckSucidide(pos)) ){
+            if( pos != captured && !(CheckSuicide(pos)) ){
                 valid = board->PlacePiece(pos, active_player);
             }
             
@@ -65,7 +65,7 @@ void Game::PlayerAction()
         
     }
 }
-bool Game::CheckSucidide(Position pos){
+bool Game::CheckSuicide(Position pos){
     if(CheckSurrounded(pos, active_player))
     {
         //holds the array size for *enemies

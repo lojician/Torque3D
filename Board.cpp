@@ -110,7 +110,7 @@ BoundaryChecker Board<T>::BoundsCheck(Position pos)
 template <class T>
 T * Board<T>::GetAllSurroundingElem(Position pos)
 {
-    /* SurroundingOffsets sur_pos;
+    SurroundingOffsets sur_pos;
     T sur_elem[4];
     int i = 0;
     if(pos.y == 0){
@@ -154,15 +154,16 @@ T * Board<T>::GetAllSurroundingElem(Position pos)
             i++;
         }
     }
-    T returning_elems[(i-1)];
+    T* returning_elems = new T[(i-1)];
     for (int j = 0; j<i; j++){
         returning_elems[j] = sur_elem[j];
     }
-    return returning_elems; */
+    //ma
+    return returning_elems;
 }
 
 template <class T>
-Position * Board<T>::GetPositionsForElem(Position pos, T piece, size_t& arraySize)
+Position * Board<T>::GetAllSurroundingPositions(Position pos, size_t& arraySize)
 {
     SurroundingOffsets sur_pos;
     Position sur_elem_pos[4];
@@ -185,12 +186,12 @@ Position * Board<T>::GetPositionsForElem(Position pos, T piece, size_t& arraySiz
         sur_elem_pos[i++] = sur_pos.left;
     }
     arraySize = (i);
-    Position* returning_elems = new Position[(i-1)];
+    Position* returning_positions = new Position[(i-1)];
     for (int j = 0; j<i; j++){
-        returning_elems[j] = sur_elem_pos[j];
+        returning_positions[j] = sur_elem_pos[j];
     }
     //make sure to delete
-    return returning_elems;
+    return returning_positions;
 }
 
 template <class T>
@@ -204,7 +205,7 @@ template <class T>
 bool Board<T>::CheckOffsetElem(Position pos, Position offset, T elem)
 { 
     pos += offset;
-    if(!(checked->at(pos)) && (PointCheck(pos) == elem))
+    if((PointCheck(pos) == elem))
     {
         return true;    
     } else {

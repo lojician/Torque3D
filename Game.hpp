@@ -24,7 +24,7 @@ public:
     void PlayerAction();
     void ProcessTurn(Position);
     bool CheckCapture(Position, point);
-    bool CheckSucidide(Position);
+    bool CheckSuicide(Position);
     bool CheckSurrounded(Position,point);
     void CalculateScore();
     void End();

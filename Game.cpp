@@ -75,7 +75,7 @@ bool Game::CheckSucidide(Position pos){
         //check capture of surrounding enemies
         for (size_t i; i < num_enemies; i++)
         {
-            CheckCapture();
+            CheckCapture(pos, active_player);
         }
     }
 }

@@ -8,7 +8,7 @@ private:
     /* data */
     int size;
     Array2D<T> *grid;
-    
+    Array2D<bool> *checked;
     
 public:
     Board(int);

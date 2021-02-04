@@ -91,27 +91,6 @@ bool Game::CheckSurrounded(Position pos, point piece)
 {
     
 }
-bool Game::OffsetChecked(Position pos, Position offset)
-{
-    pos += offset;
-    if(!(checked_board->PointCheck(pos)))
-    {
-        return true;
-    } else {
-        return false;
-    }
-}
-bool Game::GetOffsetPiece(Position pos, Position offset, point &p)
-{
-    pos += offset;
-    if(!(checked_board->PointCheck(pos)))
-    {
-        p = board->PointCheck(pos);
-        return true;
-    } else {
-        return false;
-    }
-}
 
 void Game::ProcessTurn(Position pos)
 {

@@ -43,39 +43,39 @@ template <class T>
 int Board<T>::CountSurroundingOf(Position pos, T piece)
 {
     SurroundingOffsets sur_pos;
-    T sur_elem[4];
     int i = 0;
     SBPosition bounded_pos;
     BoundaryChecker inbounds = BoundsCheck(pos);
-    
-    if(inbounds.below)
-    {
-        if (CheckOffsetElem(pos, sur_pos.below, piece))
-        {
-            i++;
-        }
-    } 
+     
     if(inbounds.above)
     {
-        if (CheckOffsetElem(pos, sur_pos.above, piece))
-        {
-            i++;
-        }
-    } 
-    if(inbounds.right)
-    {
-        if (CheckOffsetElem(pos, sur_pos.right, piece))
-        {
-            i++;
-        }
-    } 
-    if(inbounds.left)
-    {
-        if (CheckOffsetElem(pos, sur_pos.left, piece))
+        if (CheckOffsetForElem(pos, sur_pos.above, piece))
         {
             i++;
         }
     }
+    if(inbounds.below)
+    {
+        if (CheckOffsetForElem(pos, sur_pos.below, piece))
+        {
+            i++;
+        }
+    }
+    if(inbounds.left)
+    {
+        if (CheckOffsetForElem(pos, sur_pos.left, piece))
+        {
+            i++;
+        }
+    }
+    if(inbounds.right)
+    {
+        if (CheckOffsetForElem(pos, sur_pos.right, piece))
+        {
+            i++;
+        }
+    }
+    
     return i;
 }
 
@@ -108,82 +108,72 @@ BoundaryChecker Board<T>::BoundsCheck(Position pos)
 }
 
 template <class T>
-T * Board<T>::GetAllSurroundingElem(Position pos)
+T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
 {
     SurroundingOffsets sur_pos;
     T sur_elem[4];
-    int i = 0;
-    if(pos.y == 0){
-        if (GetOffsetPiece(pos, sur_pos.below, sur_elem[i]))
+    arraySize = 0;
+    BoundaryChecker inbounds = BoundsCheck(pos);
+    
+    if(inbounds.above)
+    {
+        if (GetOffsetPiece(pos, sur_pos.above))
         {
-            i++;
-        }
-       
-    } else if(pos.y == (size -1)){
-        if (GetOffsetPiece(pos, sur_pos.above, sur_elem[i]))
-        {
-            i++;
-        }
-    } else {
-        if (GetOffsetPiece(pos, sur_pos.above, sur_elem[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.below, sur_elem[i]))
-        {
-            i++;
+            arraySize++;
         }
     }
-    if(pos.x == 0){
-        if (GetOffsetPiece(pos, sur_pos.right, sur_elem[i]))
+    if(inbounds.below)
+    {
+        if (GetOffsetPiece(pos, sur_pos.below))
         {
-            i++;
-        }
-    } else if(pos.x == (size -1)){
-        if (GetOffsetPiece(pos, sur_pos.left, sur_elem[i]))
-        {
-            i++;
-        }
-    }else {
-        if (GetOffsetPiece(pos, sur_pos.right, sur_elem[i]))
-        {
-            i++;
-        }
-        if (GetOffsetPiece(pos, sur_pos.left, sur_elem[i]))
-        {
-            i++;
+            arraySize++;
         }
     }
-    T* returning_elems = new T[(i-1)];
-    for (int j = 0; j<i; j++){
+    if(inbounds.left)
+    {
+        if (GetOffsetPiece(pos, sur_pos.left))
+        {
+            arraySize++;
+        }
+    }
+    if(inbounds.right)
+    {
+        if (GetOffsetPiece(pos, sur_pos.right))
+        {
+            arraySize++;
+        }
+    } 
+    
+    T* returning_elems = new T[(arraySize-1)];
+    for (int j = 0; j<arraySize; j++){
         returning_elems[j] = sur_elem[j];
     }
-    //ma
+    //make sure to delete
     return returning_elems;
 }
 
 template <class T>
-Position * Board<T>::GetAllSurroundingPositions(Position pos, size_t& arraySize)
+Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
 {
     SurroundingOffsets sur_pos;
     Position sur_elem_pos[4];
     int i = 0;
-    if(pos.y == 0){
-        sur_elem_pos[i++] = sur_pos.below;
+    if(pos.y == (size -1)){
+        sur_elem_pos[i++] = sur_pos.above;
        
-    } else if(pos.y == (size -1)){
-        sur_elem_pos[i++] = sur_pos.above;
-    } else {
+    } else if(pos.y == 0){
         sur_elem_pos[i++] = sur_pos.below;
+    } else {
         sur_elem_pos[i++] = sur_pos.above;
+        sur_elem_pos[i++] = sur_pos.below;
     }
-    if(pos.x == 0){
-        sur_elem_pos[i++] = sur_pos.right;
-    } else if(pos.x == (size -1)){
+    if(pos.x == (size -1)){
         sur_elem_pos[i++] = sur_pos.left;
+    } else if(pos.x == 0){
+        sur_elem_pos[i++] = sur_pos.right;
     }else {
-        sur_elem_pos[i++] = sur_pos.right;
         sur_elem_pos[i++] = sur_pos.left;
+        sur_elem_pos[i++] = sur_pos.right;
     }
     arraySize = (i);
     Position* returning_positions = new Position[(i-1)];
@@ -202,7 +192,18 @@ T Board<T>::GetOffsetPiece(Position pos, Position offset)
 }
 
 template <class T>
-bool Board<T>::CheckOffsetElem(Position pos, Position offset, T elem)
+bool Board<T>::CheckOffset(Position pos, Position offset)
+{ 
+    pos += offset;
+    if((PointCheck(pos) != static_cast<T>(0)))
+    {
+        return true;    
+    } else {
+        return false;
+    }
+}
+template <class T>
+bool Board<T>::CheckOffsetForElem(Position pos, Position offset, T elem)
 { 
     pos += offset;
     if((PointCheck(pos) == elem))

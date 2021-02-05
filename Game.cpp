@@ -69,7 +69,7 @@ bool Game::CheckSuicide(Position pos){
     if(CheckSurrounded(pos, active_player))
     {
         //holds the array size for *enemies
-        size_t num_enemies;
+        int num_enemies;
         point enemy = static_cast<point>(active_player * -1);
         Position *enemies = board->GetPositionsForElem(pos, enemy, num_enemies);
         //check capture of surrounding enemies
@@ -89,7 +89,15 @@ bool Game::CheckCapture(Position pos, point piece)
 
 bool Game::CheckSurrounded(Position pos, point piece)
 {
-    
+    int num_pieces = 0;
+    point *sur_pieces =  board->GetAllSurroundingElem(pos, num_pieces);
+    for(int i; i < num_pieces;i++)
+    {
+        if(sur_pieces[i]==empty){
+            return false;
+        }
+    }
+    return true;
 }
 
 void Game::ProcessTurn(Position pos)

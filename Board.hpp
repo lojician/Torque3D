@@ -19,11 +19,12 @@ public:
     void Clear();
     int CountSurroundingOf(Position, T);
     BoundaryChecker BoundsCheck(Position);
-    Position * GetAllSurroundingPositions(Position);
-    T * GetAllSurroundingElem(Position);
-    Position * GetPositionsForElem(Position, T, size_t&);
+    Position * GetAllSurroundingPositions(Position, int&);
+    T * GetAllSurroundingElem(Position, int&);
+    Position * GetPositionsForElem(Position, T, int&);
     T GetOffsetPiece(Position, Position);
-    bool CheckOffsetElem(Position, Position, T);
+    bool CheckOffset(Position, Position);
+    bool CheckOffsetForElem(Position, Position, T);
     
 
 };

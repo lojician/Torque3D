@@ -8,14 +8,13 @@ private:
     /* data */
     int size;
     Array2D<T> *grid;
-    Array2D<bool> *checked;
     
 public:
     Board(int);
     ~Board();
-    bool PlacePiece(Position, T);
-    void RemovePiece(Position);
-    T PointCheck(Position);
+    bool PlaceElem(Position, T);
+    void RemoveElem(Position);
+    T CheckElem(Position);
     void Clear();
     int CountSurroundingOf(Position, T);
     BoundaryChecker BoundsCheck(Position);
@@ -25,6 +24,7 @@ public:
     T GetOffsetPiece(Position, Position);
     bool CheckOffset(Position, Position);
     bool CheckOffsetForElem(Position, Position, T);
+    void setPosChecked()
     
 
 };

@@ -54,7 +54,7 @@ void Game::PlayerAction()
         while(!valid){
 
             if( pos != captured && !(CheckSuicide(pos)) ){
-                valid = board->PlacePiece(pos, active_player);
+                valid = board->PlaceElem(pos, active_player);
             }
             
             if (!valid){
@@ -66,6 +66,7 @@ void Game::PlayerAction()
     }
 }
 bool Game::CheckSuicide(Position pos){
+    checked_board->Clear();
     if(CheckSurrounded(pos, active_player))
     {
         //holds the array size for *enemies
@@ -85,16 +86,26 @@ bool Game::CheckSuicide(Position pos){
             return true;
         }
         delete[] enemies;
-        CheckCapture(pos, active_player);
+        if(CheckCapture(pos, active_player))
+        {
+            return true;
+        } else {
+            return false;
+        }
     } else {
         return false;
     }
 }
 bool Game::CheckCapture(Position pos, point piece)
-{
+{  
     //look for first empty space amongst connected comrades
-    int num_comrades;
-    Position *enemies = board->GetPositionsForElem(pos, piece, num_comrades);
+    int num_sur;
+    point *sur = board->GetAllSurroundingElem(pos, num_sur);
+    checked_board->PlaceElem(pos, true);
+    for (int i; i < num_sur; i++)
+    {
+        
+    }
 }
 
 

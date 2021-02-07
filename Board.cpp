@@ -5,12 +5,11 @@ Board<T>::Board(int x)
     //initialize grid and make sure it's clear
     size = x;
     grid = new Array2D<T>(size,size);
-    checked = new Array2D<bool>(size, size);
     Clear();
 }
 
 template <class T>
-bool Board<T>::PlacePiece(Position pos, T piece)
+bool Board<T>::PlaceElem(Position pos, T piece)
 {
     if (grid->at(pos) == empty){
         //add logic to make sure piece would not be taken
@@ -22,7 +21,7 @@ bool Board<T>::PlacePiece(Position pos, T piece)
 }
 
 template <class T>
-void Board<T>::RemovePiece(Position pos)
+void Board<T>::RemoveElem(Position pos)
 {
     grid->at(pos) = empty;
 }
@@ -34,7 +33,7 @@ void Board<T>::Clear()
 }
 
 template <class T>
-T Board<T>::PointCheck(Position pos)
+T Board<T>::CheckElem(Position pos)
 {
     return grid->at(pos);
 }
@@ -217,14 +216,14 @@ template <class T>
 T Board<T>::GetOffsetPiece(Position pos, Position offset)
 {
     pos += offset;
-    return PointCheck(pos);  
+    return CheckElem(pos);  
 }
 
 template <class T>
 bool Board<T>::CheckOffset(Position pos, Position offset)
 { 
     pos += offset;
-    if((PointCheck(pos) != static_cast<T>(0)))
+    if((CheckElem(pos) != static_cast<T>(0)))
     {
         return true;    
     } else {
@@ -235,7 +234,7 @@ template <class T>
 bool Board<T>::CheckOffsetForElem(Position pos, Position offset, T elem)
 { 
     pos += offset;
-    if((PointCheck(pos) == elem))
+    if((CheckElem(pos) == elem))
     {
         return true;    
     } else {

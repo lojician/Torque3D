@@ -106,52 +106,6 @@ BoundaryChecker Board<T>::BoundsCheck(Position pos)
     }
     return check;
 }
-
-template <class T>
-T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
-{
-    SurroundingOffsets sur_pos;
-    T sur_elem[4];
-    arraySize = 0;
-    BoundaryChecker inbounds = BoundsCheck(pos);
-    
-    if(inbounds.above)
-    {
-        if (GetOffsetPiece(pos, sur_pos.above))
-        {
-            arraySize++;
-        }
-    }
-    if(inbounds.below)
-    {
-        if (GetOffsetPiece(pos, sur_pos.below))
-        {
-            arraySize++;
-        }
-    }
-    if(inbounds.left)
-    {
-        if (GetOffsetPiece(pos, sur_pos.left))
-        {
-            arraySize++;
-        }
-    }
-    if(inbounds.right)
-    {
-        if (GetOffsetPiece(pos, sur_pos.right))
-        {
-            arraySize++;
-        }
-    } 
-    
-    T* returning_elems = new T[(arraySize-1)];
-    for (int j = 0; j<arraySize; j++){
-        returning_elems[j] = sur_elem[j];
-    }
-    //make sure to delete
-    return returning_elems;
-}
-
 template <class T>
 Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
 {
@@ -183,6 +137,81 @@ Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
     //make sure to delete
     return returning_positions;
 }
+template <class T>
+Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
+{
+    SurroundingOffsets sur_pos;
+    if(inbounds.above)
+    {
+        if (CheckOffsetForElem(pos, sur_pos.above, piece))
+        {
+            i++;
+        }
+    }
+    if(inbounds.below)
+    {
+        if (CheckOffsetForElem(pos, sur_pos.below, piece))
+        {
+            i++;
+        }
+    }
+    if(inbounds.left)
+    {
+        if (CheckOffsetForElem(pos, sur_pos.left, piece))
+        {
+            i++;
+        }
+    }
+    if(inbounds.right)
+    {
+        if (CheckOffsetForElem(pos, sur_pos.right, piece))
+        {
+            i++;
+        }
+    }
+    arraySize = (i);
+    Position* returning_positions = new Position[(i-1)];
+    for (int j = 0; j<i; j++){
+        returning_positions[j] = sur_elem[j];
+    }
+    //make sure to delete
+    return returning_positions;
+}
+template <class T>
+T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
+{
+    SurroundingOffsets sur_pos;
+    T sur_elem[4];
+    arraySize = 0;
+    BoundaryChecker inbounds = BoundsCheck(pos);
+    
+    if(inbounds.above)
+    {
+        sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.above)
+        
+    }
+    if(inbounds.below)
+    {
+         sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.below)
+    }
+    if(inbounds.left)
+    {
+        sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.left)
+    }
+    if(inbounds.right)
+    {
+         sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.right)
+    } 
+    
+    T* returning_elems = new T[(arraySize-1)];
+    for (int j = 0; j<arraySize; j++)
+    {
+        returning_elems[j] = sur_elem[j];
+    }
+    //make sure to delete
+    return returning_elems;
+}
+
 
 template <class T>
 T Board<T>::GetOffsetPiece(Position pos, Position offset)

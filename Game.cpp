@@ -75,14 +75,26 @@ bool Game::CheckSuicide(Position pos){
         //check capture of surrounding enemies
         for (size_t i; i < num_enemies; i++)
         {
-            CheckCapture(pos, active_player);
+            if(CheckCapture(enemies[i], enemy))
+            {
+                return false;
+            }
         }
+        //if execution arrives here all enemies are safe
+        if (num_enemies == 4){
+            return true;
+        }
+        delete[] enemies;
+        CheckCapture(pos, active_player);
+    } else {
+        return false;
     }
 }
 bool Game::CheckCapture(Position pos, point piece)
 {
-    //look for first empty space amongst connected friendlies
-
+    //look for first empty space amongst connected comrades
+    int num_comrades;
+    Position *enemies = board->GetPositionsForElem(pos, piece, num_comrades);
 }
 
 

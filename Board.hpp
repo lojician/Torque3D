@@ -20,8 +20,8 @@ public:
     int CountSurroundingOf(Position, T);
     BoundaryChecker BoundsCheck(Position);
     Position * GetAllSurroundingPositions(Position, int&);
-    T * GetAllSurroundingElem(Position, int&);
     Position * GetPositionsForElem(Position, T, int&);
+    T * GetAllSurroundingElem(Position, int&);
     T GetOffsetPiece(Position, Position);
     bool CheckOffset(Position, Position);
     bool CheckOffsetForElem(Position, Position, T);

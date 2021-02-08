@@ -140,9 +140,9 @@ bool Game::CheckAllXForY(Position pos, point x, point y)
                 if (CheckAllXForY(comrades[i], x, y)){
                     return true;
                 }
-
             }
         }
+        return false;
     } else {
         return false;
     }

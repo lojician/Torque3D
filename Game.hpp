@@ -27,6 +27,8 @@ public:
     bool CheckSuicide(Position);
     bool CheckSurrounded(Position,point);
     bool CheckAllXForY(Position, point, point);
+    void PrintBoard();
+    string PointsToString(point *, int);
     void CalculateScore();
     void End();
 };

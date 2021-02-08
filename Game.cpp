@@ -23,6 +23,7 @@ void Game::Play()
     while(game_status != 0)
     {
         Position pos;
+        PrintBoard();
         DetermineTurn();
         PlayerAction();
     }
@@ -159,7 +160,31 @@ bool Game::CheckSurrounded(Position pos, point piece)
     }
     return true;
 }
-
+void Game::PrintBoard()
+{
+    for(int i = 0; i < board_size; i++)
+    {
+        point * lineElems = board->GetRowOfElem(i);
+        string line = PointsToString(lineElems, board_size);
+        delete[] lineElems;
+        printLine(line);
+    }
+}
+string Game::PointsToString(point * points, int size)
+{
+    string return_string  = "";
+    for(int i = 0; i < size; i++){
+        if (points[i] == white){
+            return_string += "w";
+        } else if (points[i] == black){
+            return_string += "b";
+        } else {
+            return_string += "'";
+        }
+        return_string += "|";
+    }
+    return return_string;
+}
 void Game::ProcessTurn(Position pos)
 {
     //process the consequences of the players turn

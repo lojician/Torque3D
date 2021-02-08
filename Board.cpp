@@ -39,6 +39,16 @@ T Board<T>::CheckElem(Position pos)
 }
 
 template <class T>
+T * Board<T>::GetRowOfElem(int row)
+{
+    T * returning_elems = new T[(size)]; 
+    for (int i = 0; i < size; i++){
+        returning_elems[i] = grid->at(Position{i,row});
+    }
+    return returning_elems;
+}
+
+template <class T>
 int Board<T>::CountSurroundingOf(Position pos, T piece)
 {
     SurroundingOffsets sur_pos;
@@ -105,6 +115,7 @@ BoundaryChecker Board<T>::BoundsCheck(Position pos)
     }
     return check;
 }
+
 template <class T>
 Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
 {
@@ -136,6 +147,7 @@ Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
     //make sure to delete
     return returning_positions;
 }
+
 template <class T>
 Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
 {
@@ -179,6 +191,7 @@ Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
     //make sure to delete
     return returning_positions;
 }
+
 template <class T>
 T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
 {

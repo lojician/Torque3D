@@ -16,6 +16,7 @@ public:
     void RemoveElem(Position);
     T CheckElem(Position);
     void Clear();
+    T * GetRowOfElem(int);
     int CountSurroundingOf(Position, T);
     BoundaryChecker BoundsCheck(Position);
     Position * GetAllSurroundingPositions(Position, int&);

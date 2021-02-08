@@ -84,6 +84,7 @@ struct BoundaryChecker
     bool &left = dir[2];
     bool &right = dir[3];
 };
+
 //Array 2D taking fron
 template <typename T>
 class Array2D 

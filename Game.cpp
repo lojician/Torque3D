@@ -98,17 +98,54 @@ bool Game::CheckSuicide(Position pos){
 }
 bool Game::CheckCapture(Position pos, point piece)
 {  
-    //look for first empty space amongst connected comrades
-    int num_sur;
-    point *sur = board->GetAllSurroundingElem(pos, num_sur);
-    checked_board->PlaceElem(pos, true);
-    for (int i; i < num_sur; i++)
+    if(CheckSurrounded(pos, piece))
     {
+        int num_enemies;
+        point enemy = static_cast<point>(piece * -1);
+        Position *enemies = board->GetPositionsForElem(pos, enemy, num_enemies);
+        if (num_enemies == 4){
+            return true;
+        }
+        delete[] enemies;
+        if (CheckAllXForY(pos, piece, empty))
+        {
+            return false;
+        }  else
+        {
+            return true;
+        }     
+        //look for first empty space amongst connected comrades
         
+        return false;
     }
 }
 
+bool Game::CheckAllXForY(Position pos, point x, point y)
+{
+    if (!checked_board->CheckElem(pos))
+    {
+        int num_comrade;
+        Position *comrades = board->GetPositionsForElem(pos, x, num_comrade);
+        checked_board->PlaceElem(pos, true);
+        for (int i; i < num_comrade; i++)
+        {
+            if (comrades[i]==y)
+            {
+                return true;
+            }
+            if (comrades[i]==x)
+            {
+                //check adjacencies
+                if (CheckAllXForY(comrades[i], x, y)){
+                    return true;
+                }
 
+            }
+        }
+    } else {
+        return false;
+    }
+}
 
 bool Game::CheckSurrounded(Position pos, point piece)
 {

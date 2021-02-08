@@ -129,7 +129,7 @@ Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
         sur_elem_pos[i++] = sur_pos.right;
     }
     arraySize = (i);
-    Position* returning_positions = new Position[(i-1)];
+    Position* returning_positions = new Position[(i)];
     for (int j = 0; j<i; j++){
         returning_positions[j] = sur_elem_pos[j];
     }
@@ -140,38 +140,41 @@ template <class T>
 Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
 {
     SurroundingOffsets sur_pos;
+    BoundaryChecker inbounds = BoundsCheck(pos);
+    Position sur_elem_pos[4];
+    int i = 0;
     if(inbounds.above)
     {
-        if (CheckOffsetForElem(pos, sur_pos.above, piece))
+        if (CheckOffsetForElem(pos, sur_pos.above, elem))
         {
-            i++;
+            sur_elem_pos[i++] = sur_pos.above;
         }
     }
     if(inbounds.below)
     {
-        if (CheckOffsetForElem(pos, sur_pos.below, piece))
+        if (CheckOffsetForElem(pos, sur_pos.below, elem))
         {
-            i++;
+            sur_elem_pos[i++] = sur_pos.below;
         }
     }
     if(inbounds.left)
     {
-        if (CheckOffsetForElem(pos, sur_pos.left, piece))
+        if (CheckOffsetForElem(pos, sur_pos.left, elem))
         {
-            i++;
+            sur_elem_pos[i++] = sur_pos.left;
         }
     }
     if(inbounds.right)
     {
-        if (CheckOffsetForElem(pos, sur_pos.right, piece))
+        if (CheckOffsetForElem(pos, sur_pos.right, elem))
         {
-            i++;
+            sur_elem_pos[i++] = sur_pos.right;
         }
     }
     arraySize = (i);
-    Position* returning_positions = new Position[(i-1)];
+    Position* returning_positions = new Position[(i)];
     for (int j = 0; j<i; j++){
-        returning_positions[j] = sur_elem[j];
+        returning_positions[j] = sur_elem_pos[j];
     }
     //make sure to delete
     return returning_positions;
@@ -186,23 +189,23 @@ T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
     
     if(inbounds.above)
     {
-        sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.above)
+        sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.above);
         
     }
     if(inbounds.below)
     {
-         sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.below)
+         sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.below);
     }
     if(inbounds.left)
     {
-        sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.left)
+        sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.left);
     }
     if(inbounds.right)
     {
-         sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.right)
+         sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.right);
     } 
     
-    T* returning_elems = new T[(arraySize-1)];
+    T* returning_elems = new T[(arraySize)];
     for (int j = 0; j<arraySize; j++)
     {
         returning_elems[j] = sur_elem[j];

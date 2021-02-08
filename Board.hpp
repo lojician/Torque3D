@@ -24,7 +24,5 @@ public:
     T GetOffsetPiece(Position, Position);
     bool CheckOffset(Position, Position);
     bool CheckOffsetForElem(Position, Position, T);
-    void setPosChecked()
-    
 
 };

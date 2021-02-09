@@ -1,7 +1,9 @@
 #include "Game.hpp"
 
 #include <vector>
+#include <fstream>
 using std::vector;
+using std::fstream;
 
 Game::Game()
 {
@@ -48,8 +50,8 @@ void Game::PlayerAction()
     bool valid = false;
     Position pos;
     //run until valid input is entered
-    bool play = IO::PassOrPlay();
-    if (play)
+    int play = IO::PassOrPlay();
+    if (play == 1)
     {
         pos = IO::GetPosition(board_size);
         while(!valid){
@@ -83,7 +85,7 @@ bool Game::CheckSuicide(Position pos){
             }
         }
         //if execution arrives here all enemies are safe
-        if (num_enemies == 4){
+        if (num_enemies == board->CountSurroundingPos(pos)){
             return true;
         }
         delete[] enemies;
@@ -104,7 +106,7 @@ bool Game::CheckCapture(Position pos, point piece)
         int num_enemies;
         point enemy = static_cast<point>(piece * -1);
         Position *enemies = board->GetPositionsForElem(pos, enemy, num_enemies);
-        if (num_enemies == 4){
+        if (num_enemies == board->CountSurroundingPos(pos)){
             return true;
         }
         delete[] enemies;
@@ -165,15 +167,49 @@ void Game::PrintBoard()
     for(int i = 0; i < board_size; i++)
     {
         point * lineElems = board->GetRowOfElem(i);
-        string line = PointsToString(lineElems, board_size);
+        string line = PointsToString(lineElems, board_size, false);
         delete[] lineElems;
         printLine(line);
     }
 }
-string Game::PointsToString(point * points, int size)
+void Game::SaveBoard()
+{
+    fstream myfile;
+    myfile.open ("save.txt", fstream::trunc);
+    if (myfile.is_open()){
+        for(int i = 0; i < board_size; i++)
+        {
+            point * lineElems = board->GetRowOfElem(i);
+            string line = PointsToString(lineElems, board_size, true);
+            delete[] lineElems;
+            myfile << line << "\n";
+        }
+        myfile.close();
+    }
+}
+void Game::LoadBoard()
+{
+    fstream myfile;
+    myfile.open ("save.txt");
+    if(myfile.is_open())
+    {
+        string line;
+        int i = 0;
+        while(getline(myfile, line))
+        {
+            point * p_row = StringToPoints(line, board_size);
+            board->SetRowOfElem(p_row , i++);
+        }
+         myfile.close();
+    }
+   
+}
+string Game::PointsToString(point * points, int size, bool saving)
 {
     string return_string  = "";
+    
     for(int i = 0; i < size; i++){
+        
         if (points[i] == white){
             return_string += "w";
         } else if (points[i] == black){
@@ -181,10 +217,31 @@ string Game::PointsToString(point * points, int size)
         } else {
             return_string += "'";
         }
-        return_string += "|";
+        //don't add seperator when saving out to file
+        if(!saving){
+            return_string += "|";
+        }
     }
+
     return return_string;
 }
+
+point * Game::StringToPoints(string point_string, int size)
+{
+    point * returning_points = new point[size];
+    for (int i; i < size; i++) {
+        if(point_string[i] == 'b'){
+            returning_points[i] = black;
+        } else if(point_string[i] == 'w'){
+            returning_points[i] = white;
+        } else {
+            returning_points[i] = empty;
+        }
+    }
+    return returning_points;
+
+}
+
 void Game::ProcessTurn(Position pos)
 {
     //process the consequences of the players turn

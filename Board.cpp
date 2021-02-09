@@ -47,7 +47,13 @@ T * Board<T>::GetRowOfElem(int row)
     }
     return returning_elems;
 }
-
+template <class T>
+void Board<T>::SetRowOfElem(T * elem_row, int row)
+{
+    for (int i = 0; i < size; i++){
+        grid->at(Position{i,row}) = elem_row[i];
+    }
+}
 template <class T>
 int Board<T>::CountSurroundingOf(Position pos, T piece)
 {
@@ -83,6 +89,34 @@ int Board<T>::CountSurroundingOf(Position pos, T piece)
         {
             i++;
         }
+    }
+    
+    return i;
+}
+
+template <class T>
+int Board<T>::CountSurroundingPos(Position pos)
+{
+    SurroundingOffsets sur_pos;
+    int i = 0;
+    SBPosition bounded_pos;
+    BoundaryChecker inbounds = BoundsCheck(pos);
+     
+    if(inbounds.above)
+    {
+            i++;
+    }
+    if(inbounds.below)
+    {
+         i++;
+    }
+    if(inbounds.left)
+    {
+         i++;
+    }
+    if(inbounds.right)
+    {
+         i++;
     }
     
     return i;

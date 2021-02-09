@@ -11,7 +11,7 @@ public:
     static char GetCharInput(string);
     static string GetStringInput(string);
     static int GetIntInput(string);
-    static bool PassOrPlay();
+    static int PassOrPlay();
     template <typename T> 
     static T GetInput(T);
     static Position GetPosition(int);

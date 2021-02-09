@@ -40,17 +40,20 @@ T IO::GetInput(T input)
     clearBuffer();
     return input;
 }
-bool IO::PassOrPlay()
+int IO::PassOrPlay()
 {
     char input; 
-    string pass_play_out = "Do you want to play(p), or skip(s)\n";  
+    string pass_play_out = "To Take your turn enter t, to pass enter p to get more options enter o \n";  
     while (true){
         input = GetCharInput(pass_play_out);
-        if (input == 'p'){
-            return true;
-        } else if (input == 's')
+        if (input == 't'){
+            return 1;
+        } else if (input == 'p')
         {
-            return false;
+            return 0;
+        } else if (input == 'o')
+        {
+            
         }
         else {
             printLine(invalid_input);

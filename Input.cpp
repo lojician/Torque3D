@@ -1,4 +1,6 @@
 #include "Input.hpp"
+#include <algorithm>  
+//using std::find ,std::begin, std::end;
 
 const string IO::invalid_input =  "Invalid input. Try Again.";
 const string IO::error_oor = "The location is outside the valid range.";
@@ -40,40 +42,32 @@ T IO::GetInput(T input)
     clearBuffer();
     return input;
 }
-int IO::PassOrPlay()
+char IO::PlayMenu()
 {
     char input; 
     string pass_play_out = "To Take your turn enter t, to pass enter p to get more options enter o \n";  
+    char valid_in[] = {'t', 'p','o'};
     while (true){
         input = GetCharInput(pass_play_out);
-        if (input == 't'){
-            return 1;
-        } else if (input == 'p')
+        if ((std::find(std::begin(valid_in), std::end(valid_in), input) != std::end(valid_in)))
         {
-            return 0;
-        } else if (input == 'o')
-        {
-            return 2;
+            return input;
         }
         else {
             printLine(invalid_input);
         }
     }
 }
-int IO::Options()
+char IO::Options()
 {
     char input; 
     string pass_play_out = "(l) to load board (s) to save game (e) to exit \n";  
+     char valid_in[] = {'l', 's','e'};
     while (true){
         input = GetCharInput(pass_play_out);
-        if (input == 'l'){
-            return 1;
-        } else if (input == 's')
+        if ((std::find(std::begin(valid_in), std::end(valid_in), input) != std::end(valid_in)))
         {
-            return 2;
-        } else if (input == 'e')
-        {
-            return 0;
+            return input;
         }
         else {
             printLine(invalid_input);

@@ -51,8 +51,8 @@ void Game::PlayerAction()
     Position pos;
     //run until valid input is entered
     while(!exit){
-        int play = IO::PassOrPlay();
-        if (play == 1)
+        char play = IO::PlayMenu();
+        if (play == 't')
         {
             bool valid = false;
             pos = IO::GetPosition(board_size);
@@ -69,7 +69,7 @@ void Game::PlayerAction()
             }
             exit = true;
             
-        } else if (play == 2)
+        } else if (play == 'o')
         {
             HandleOptions();
         } else 
@@ -80,10 +80,10 @@ void Game::PlayerAction()
 }
 void Game::HandleOptions()
 {
-    int option = IO::Options();
-    if (option == 1){
+    char option = IO::Options();
+    if (option == 'l'){
         LoadBoard();
-    } else if (option == 2){
+    } else if (option == 's'){
         SaveBoard();
     } 
 }
@@ -193,33 +193,34 @@ void Game::PrintBoard()
 }
 void Game::SaveBoard()
 {
-    fstream myfile;
-    myfile.open ("save.txt", fstream::trunc);
-    if (myfile.is_open()){
+    std::ofstream save_file ("save");
+    //fstream save_file;
+    //save_file.open ("save.txt", fstream::trunc);
+    if (save_file.is_open()){
         for(int i = 0; i < board_size; i++)
         {
             point * lineElems = board->GetRowOfElem(i);
             string line = PointsToString(lineElems, board_size, true);
             delete[] lineElems;
-            myfile << line << "\n";
+            save_file << line << "\n";
         }
-        myfile.close();
+        save_file.close();
     }
 }
 void Game::LoadBoard()
 {
-    fstream myfile;
-    myfile.open ("save.txt");
-    if(myfile.is_open())
+    fstream save_file;
+    save_file.open ("save");
+    if(save_file.is_open())
     {
         string line;
         int i = 0;
-        while(getline(myfile, line))
+        while(getline(save_file, line))
         {
             point * p_row = StringToPoints(line, board_size);
             board->SetRowOfElem(p_row , i++);
         }
-         myfile.close();
+         save_file.close();
     }
    
 }

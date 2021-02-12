@@ -80,7 +80,12 @@ void Game::PlayerAction()
 }
 void Game::HandleOptions()
 {
-    
+    int option = IO::Options();
+    if (option == 1){
+        LoadBoard();
+    } else if (option == 2){
+        SaveBoard();
+    } 
 }
 bool Game::CheckSuicide(Position pos){
     checked_board->Clear();

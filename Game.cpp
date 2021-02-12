@@ -1,9 +1,10 @@
 #include "Game.hpp"
+#include "Save.hpp"
 
-#include <vector>
-#include <fstream>
-using std::vector;
-using std::fstream;
+/* #include <vector>
+
+using std::vector; */
+
 
 Game::Game()
 {
@@ -82,9 +83,9 @@ void Game::HandleOptions()
 {
     char option = UI::Options();
     if (option == 'l'){
-        LoadBoard();
+        Save::LoadBoard();
     } else if (option == 's'){
-        SaveBoard();
+        Save::SaveBoard();
     } 
 }
 bool Game::CheckSuicide(Position pos){
@@ -181,64 +182,10 @@ bool Game::CheckSurrounded(Position pos, point piece)
     }
     return true;
 }
-void Game::LoadGame()
-{
-
-}
-void Game::SaveGame()
-{
-
-}
-void Game::SaveBoard()
-{
-    std::ofstream save_file ("save");
-    //fstream save_file;
-    //save_file.open ("save.txt", fstream::trunc);
-    if (save_file.is_open()){
-        for(int i = 0; i < board_size; i++)
-        {
-            point * lineElems = board->GetRowOfElem(i);
-            string line = UI::PointsToString(lineElems, board_size, true);
-            delete[] lineElems;
-            save_file << line << "\n";
-        }
-        save_file.close();
-    }
-}
-void Game::LoadBoard()
-{
-    fstream save_file;
-    save_file.open ("save");
-    if(save_file.is_open())
-    {
-        string line;
-        int i = 0;
-        while(getline(save_file, line))
-        {
-            point * p_row = StringToPoints(line, board_size);
-            board->SetRowOfElem(p_row , i++);
-        }
-         save_file.close();
-    }
-   
-}
 
 
-point * Game::StringToPoints(string point_string, int size)
-{
-    point * returning_points = new point[size];
-    for (int i; i < size; i++) {
-        if(point_string[i] == 'b'){
-            returning_points[i] = black;
-        } else if(point_string[i] == 'w'){
-            returning_points[i] = white;
-        } else {
-            returning_points[i] = empty;
-        }
-    }
-    return returning_points;
 
-}
+
 
 void Game::ProcessTurn(Position pos)
 {

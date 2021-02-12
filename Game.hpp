@@ -28,11 +28,6 @@ public:
     bool CheckSurrounded(Position,point);
     bool CheckAllXForY(Position, point, point);
     void HandleOptions();
-    point * StringToPoints(string, int);
-    void LoadBoard();
-    void SaveBoard();
-    void LoadGame();
-    void SaveGame();
     void CalculateScore();
     void End();
 };

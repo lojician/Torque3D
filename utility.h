@@ -13,10 +13,6 @@ using std::cin;
 using std::string;
 using std::endl;
 
-//using string = std::string;
-void clearBuffer();
-void printLine(string);
-
 enum point {empty = 0, black = 1, white = -1};
 enum gameStatus {unstarted = 0, started = 1, player_acting = 2, processing_action = 3};
 struct Position

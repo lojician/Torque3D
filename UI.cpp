@@ -5,13 +5,60 @@
 const string UI::invalid_input =  "Invalid input. Try Again.";
 const string UI::error_oor = "The location is outside the valid range.";
 
-char UI::StartEntry()
+void UI::ClearBuffer()
 {
-    //entry Question
-    string entryQ = "q to quit, s to start";
-    //entry Response
-    char valid_in[] = {'q', 's'};
-    return GetValidChar(valid_in, sizeof(valid_in), entryQ);
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+}
+void UI::PrintLine(string out)
+{
+    cout << out << endl;
+}
+
+
+
+string UI::GetStringInput(string output)
+{
+    PrintLine(output);
+    string type;
+    return GetInput(type);
+}
+char UI::GetCharInput(string output)
+{
+    PrintLine(output);
+    char type;
+    return GetInput(type);
+}
+int UI::GetIntInput(string output)
+{
+    PrintLine(output);
+    int type;
+    return GetInput(type);
+}
+template <typename T> 
+T UI::GetInput(T input)
+{
+    while(!(cin >> input))
+    {   
+        ClearBuffer();
+        PrintLine(invalid_input);
+    }
+    ClearBuffer();
+    return input;
+}
+char UI::GetValidChar(char valid_in[], int size, string output)
+{
+    char input;
+    while (true){
+            input = GetCharInput(output);
+            if (std::find(valid_in, valid_in + size, input))
+            {
+                return input;
+            }
+            else {
+                PrintLine(invalid_input);
+            }
+        }
 }
 
 void UI::PrintBoard(Board<point> *board, int board_size)
@@ -21,9 +68,10 @@ void UI::PrintBoard(Board<point> *board, int board_size)
         point * lineElems = board->GetRowOfElem(i);
         string line = PointsToString(lineElems, board_size, false);
         delete[] lineElems;
-        printLine(line);
+        PrintLine(line);
     }
 }
+
 string UI::PointsToString(point * points, int size, bool saving)
 {
     string return_string  = "";
@@ -45,47 +93,15 @@ string UI::PointsToString(point * points, int size, bool saving)
 
     return return_string;
 }
-char UI::GetValidChar(char valid_in[], int size, string output){
-    char input;
-    while (true){
-            input = GetCharInput(output);
-            if (std::find(valid_in, valid_in + size, input))
-            {
-                return input;
-            }
-            else {
-                printLine(invalid_input);
-            }
-        }
-}
-string UI::GetStringInput(string output)
+
+
+char UI::StartEntry()
 {
-    printLine(output);
-    string type;
-    return GetInput(type);
-}
-char UI::GetCharInput(string output)
-{
-    printLine(output);
-    char type;
-    return GetInput(type);
-}
-int UI::GetIntInput(string output)
-{
-    printLine(output);
-    int type;
-    return GetInput(type);
-}
-template <typename T> 
-T UI::GetInput(T input)
-{
-    while(!(cin >> input))
-    {   
-        clearBuffer();
-        printLine(invalid_input);
-    }
-    clearBuffer();
-    return input;
+    //entry Question
+    string entryQ = "q to quit, s to start";
+    //entry Response
+    char valid_in[] = {'q', 's'};
+    return GetValidChar(valid_in, sizeof(valid_in), entryQ);
 }
 char UI::PlayMenu()
 {
@@ -99,6 +115,7 @@ char UI::Options()
     char valid_in[] = {'l', 's','e'};
     return GetValidChar(valid_in, sizeof(valid_in), opt_out);
 }
+
 Position UI::GetPosition(int board_size)
 {
     bool valid = false;
@@ -114,16 +131,17 @@ Position UI::GetPosition(int board_size)
         if ((pos.x >= 0 && pos.x < board_size)&&(pos.y >= 0&& pos.y < board_size)){
             return pos;
         } else if(pos.x < 0 && pos.x >= board_size){ 
-            printLine(error_oor);
+            PrintLine(error_oor);
             pos.x = GetIntInput(col_req);
         } else if(pos.y < 0 && pos.y >= board_size){ 
-            printLine(error_oor);
+            PrintLine(error_oor);
             pos.y = GetIntInput(row_req);
         }
     }
 }
+
 void UI::TurnAnnouncement(string player)
 {
     string AnnounceTurn = "It is " + player + " turn to act.";
-    printLine(AnnounceTurn);
+    PrintLine(AnnounceTurn);
 }

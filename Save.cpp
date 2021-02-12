@@ -3,15 +3,15 @@
 
 #include <fstream>
 using std::fstream;
-void Save::LoadGame()
+void Save::LoadGame(Board<point>* board, int board_size, point active_player)
 {
 
 }
-void Save::SaveGame()
+void Save::SaveGame(Board<point>* board, int board_size, point active_player)
 {
 
 }
-void Save::SaveBoard()
+void Save::SaveBoard(Board<point>* board, int board_size)
 {
     std::ofstream save_file ("save");
     //fstream save_file;
@@ -27,7 +27,7 @@ void Save::SaveBoard()
         save_file.close();
     }
 }
-void Save::LoadBoard()
+void Save::LoadBoard(Board<point>* board, int board_size)
 {
     fstream save_file;
     save_file.open ("save");

@@ -85,7 +85,7 @@ struct BoundaryChecker
     bool &right = dir[3];
 };
 
-//Array 2D taking fron
+//Array 2D taken fron stackoverflow
 template <typename T>
 class Array2D 
 {

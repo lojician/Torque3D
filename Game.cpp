@@ -47,26 +47,40 @@ void Game::DetermineTurn()
 }
 void Game::PlayerAction()
 {
-    bool valid = false;
+    bool exit = false;
     Position pos;
     //run until valid input is entered
-    int play = IO::PassOrPlay();
-    if (play == 1)
-    {
-        pos = IO::GetPosition(board_size);
-        while(!valid){
+    while(!exit){
+        int play = IO::PassOrPlay();
+        if (play == 1)
+        {
+            bool valid = false;
+            pos = IO::GetPosition(board_size);
+            while(!valid){
 
-            if( pos != captured && !(CheckSuicide(pos)) ){
-                valid = board->PlaceElem(pos, active_player);
+                if( pos != captured && !(CheckSuicide(pos)) ){
+                    valid = board->PlaceElem(pos, active_player);
+                }
+                
+                if (!valid){
+                    cout << "The piece cannot be placed in that location" << endl;
+                    pos = IO::GetPosition(board_size);
+                }
             }
+            exit = true;
             
-            if (!valid){
-                cout << "The piece cannot be placed in that location" << endl;
-                pos = IO::GetPosition(board_size);
-            }
+        } else if (play == 2)
+        {
+            HandleOptions();
+        } else 
+        {
+            exit = true;
         }
-        
     }
+}
+void Game::HandleOptions()
+{
+    
 }
 bool Game::CheckSuicide(Position pos){
     checked_board->Clear();

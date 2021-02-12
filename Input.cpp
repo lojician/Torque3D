@@ -53,7 +53,27 @@ int IO::PassOrPlay()
             return 0;
         } else if (input == 'o')
         {
-            
+            return 2;
+        }
+        else {
+            printLine(invalid_input);
+        }
+    }
+}
+int IO::Options()
+{
+    char input; 
+    string pass_play_out = "(l) to load board (s) to save game (e) to exit \n";  
+    while (true){
+        input = GetCharInput(pass_play_out);
+        if (input == 'l'){
+            return 1;
+        } else if (input == 's')
+        {
+            return 2;
+        } else if (input == 'e')
+        {
+            return 0;
         }
         else {
             printLine(invalid_input);

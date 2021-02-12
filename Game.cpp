@@ -25,7 +25,7 @@ void Game::Play()
     while(game_status != 0)
     {
         Position pos;
-        PrintBoard();
+        UI::PrintBoard(board, board_size);
         DetermineTurn();
         PlayerAction();
     }
@@ -34,15 +34,15 @@ void Game::DetermineTurn()
 {
     if (active_player == 0){
         active_player = black;
-        IO::TurnAnnouncement("black");
+        UI::TurnAnnouncement("black");
     } else if (active_player == black)
     {
         active_player = white;
-        IO::TurnAnnouncement("white");
+        UI::TurnAnnouncement("white");
     } else if (active_player == white)
     {
         active_player = black;
-        IO::TurnAnnouncement("black");
+        UI::TurnAnnouncement("black");
     }
 }
 void Game::PlayerAction()
@@ -51,11 +51,11 @@ void Game::PlayerAction()
     Position pos;
     //run until valid input is entered
     while(!exit){
-        char play = IO::PlayMenu();
+        char play = UI::PlayMenu();
         if (play == 't')
         {
             bool valid = false;
-            pos = IO::GetPosition(board_size);
+            pos = UI::GetPosition(board_size);
             while(!valid){
 
                 if( pos != captured && !(CheckSuicide(pos)) ){
@@ -64,7 +64,7 @@ void Game::PlayerAction()
                 
                 if (!valid){
                     cout << "The piece cannot be placed in that location" << endl;
-                    pos = IO::GetPosition(board_size);
+                    pos = UI::GetPosition(board_size);
                 }
             }
             exit = true;
@@ -80,7 +80,7 @@ void Game::PlayerAction()
 }
 void Game::HandleOptions()
 {
-    char option = IO::Options();
+    char option = UI::Options();
     if (option == 'l'){
         LoadBoard();
     } else if (option == 's'){
@@ -181,15 +181,13 @@ bool Game::CheckSurrounded(Position pos, point piece)
     }
     return true;
 }
-void Game::PrintBoard()
+void Game::LoadGame()
 {
-    for(int i = 0; i < board_size; i++)
-    {
-        point * lineElems = board->GetRowOfElem(i);
-        string line = PointsToString(lineElems, board_size, false);
-        delete[] lineElems;
-        printLine(line);
-    }
+
+}
+void Game::SaveGame()
+{
+
 }
 void Game::SaveBoard()
 {
@@ -200,7 +198,7 @@ void Game::SaveBoard()
         for(int i = 0; i < board_size; i++)
         {
             point * lineElems = board->GetRowOfElem(i);
-            string line = PointsToString(lineElems, board_size, true);
+            string line = UI::PointsToString(lineElems, board_size, true);
             delete[] lineElems;
             save_file << line << "\n";
         }
@@ -224,27 +222,7 @@ void Game::LoadBoard()
     }
    
 }
-string Game::PointsToString(point * points, int size, bool saving)
-{
-    string return_string  = "";
-    
-    for(int i = 0; i < size; i++){
-        
-        if (points[i] == white){
-            return_string += "w";
-        } else if (points[i] == black){
-            return_string += "b";
-        } else {
-            return_string += "'";
-        }
-        //don't add seperator when saving out to file
-        if(!saving){
-            return_string += "|";
-        }
-    }
 
-    return return_string;
-}
 
 point * Game::StringToPoints(string point_string, int size)
 {

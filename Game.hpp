@@ -1,6 +1,6 @@
 #pragma once
 #include "Board.hpp"
-#include "Input.hpp"
+#include "UI.hpp"
 
 // TODO: Add ability to play different kinds of games
 // TODO: Add menu
@@ -27,12 +27,12 @@ public:
     bool CheckSuicide(Position);
     bool CheckSurrounded(Position,point);
     bool CheckAllXForY(Position, point, point);
-    void PrintBoard();
     void HandleOptions();
-    string PointsToString(point *, int, bool);
     point * StringToPoints(string, int);
     void LoadBoard();
     void SaveBoard();
+    void LoadGame();
+    void SaveGame();
     void CalculateScore();
     void End();
 };

@@ -7,7 +7,7 @@ int main(){
     
     while (!exit)
     {
-        char input = IO::StartEntry();
+        char input = UI::StartEntry();
         Game game;
         if (input == 'q'){
             exit = true;

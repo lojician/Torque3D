@@ -1,5 +1,19 @@
 #include "UI.hpp"
+
+// for cin/cout
+#include<iostream>
+// for <streamsize> 
+#include<ios>      
+// for numeric_limits 
+#include<limits>  
+//for find
 #include <algorithm>  
+
+#include "Board.hpp"
+#include "elements.hpp"
+
+using std::cout,  std::cin;
+using std::string, std::endl;
 //using std::find ,std::begin, std::end;
 
 const string UI::invalid_input =  "Invalid input. Try Again.";
@@ -66,33 +80,12 @@ void UI::PrintBoard(Board<point> *board, int board_size)
     for(int i = 0; i < board_size; i++)
     {
         point * lineElems = board->GetRowOfElem(i);
-        string line = PointsToString(lineElems, board_size, false);
+        string line = PH::PointsToString(lineElems, board_size, false);
         delete[] lineElems;
         PrintLine(line);
     }
 }
 
-string UI::PointsToString(point * points, int size, bool saving)
-{
-    string return_string  = "";
-    
-    for(int i = 0; i < size; i++){
-        
-        if (points[i] == white){
-            return_string += "w";
-        } else if (points[i] == black){
-            return_string += "b";
-        } else {
-            return_string += "'";
-        }
-        //don't add seperator when saving out to file
-        if(!saving){
-            return_string += "|";
-        }
-    }
-
-    return return_string;
-}
 
 
 char UI::StartEntry()

@@ -1,8 +1,14 @@
 #include "Save.hpp"
-#include "UI.hpp"
 
+#include "Board.hpp"
+#include "UI.hpp"
+#include "elements.hpp"
 #include <fstream>
+#include <string>
+
 using std::fstream;
+const string Save::filename = "save";
+
 void Save::LoadGame(Board<point>* board, int board_size, point active_player)
 {
 
@@ -13,14 +19,14 @@ void Save::SaveGame(Board<point>* board, int board_size, point active_player)
 }
 void Save::SaveBoard(Board<point>* board, int board_size)
 {
-    std::ofstream save_file ("save");
+    std::ofstream save_file (filename);
     //fstream save_file;
     //save_file.open ("save.txt", fstream::trunc);
     if (save_file.is_open()){
         for(int i = 0; i < board_size; i++)
         {
             point * lineElems = board->GetRowOfElem(i);
-            string line = UI::PointsToString(lineElems, board_size, true);
+            string line = PH::PointsToString(lineElems, board_size, true);
             delete[] lineElems;
             save_file << line << "\n";
         }
@@ -30,7 +36,7 @@ void Save::SaveBoard(Board<point>* board, int board_size)
 void Save::LoadBoard(Board<point>* board, int board_size)
 {
     fstream save_file;
-    save_file.open ("save");
+    save_file.open (filename);
     if(save_file.is_open())
     {
         string line;

@@ -1,13 +1,19 @@
 #include "Game.hpp"
-#include "Save.hpp"
 
+#include "UI.hpp"
+#include "Save.hpp"
+#include "Board.hpp"
+#include "elements.hpp"
 /* #include <vector>
 
 using std::vector; */
 
-
+//initialize 
 Game::Game()
 {
+    board_size = 9;
+    active_player = empty;
+    game_status = unstarted;
     board = new Board<point>(board_size);
     checked_board = new Board<bool>(board_size);
 }
@@ -64,7 +70,7 @@ void Game::PlayerAction()
                 }
                 
                 if (!valid){
-                    cout << "The piece cannot be placed in that location" << endl;
+                    UI::PrintLine("The piece cannot be placed in that location");
                     pos = UI::GetPosition(board_size);
                 }
             }
@@ -83,9 +89,9 @@ void Game::HandleOptions()
 {
     char option = UI::Options();
     if (option == 'l'){
-        Save::LoadBoard();
+        Save::LoadBoard(board, board_size);
     } else if (option == 's'){
-        Save::SaveBoard();
+        Save::SaveBoard(board, board_size);
     } 
 }
 bool Game::CheckSuicide(Position pos){

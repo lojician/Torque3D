@@ -1,10 +1,14 @@
 #include "Board.hpp"
+
+#include "array2d.hpp"
+#include "elements.hpp"
+
 template <class T>
 Board<T>::Board(int x)
 {
     //initialize grid and make sure it's clear
     size = x;
-    grid = new Array2D<T>(size,size);
+    grid = new Array2D<T>(size, size);
     Clear();
 }
 

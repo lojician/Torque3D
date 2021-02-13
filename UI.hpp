@@ -1,6 +1,14 @@
 #pragma once
-#include "utility.h"
-#include "Board.hpp"
+//=================================
+// included dependencies
+#include <string>
+using std::string;
+//=================================
+// forward declared dependencies
+template <typename T>
+class Board;
+enum point : int;
+struct Position;
 class UI
 {
 private:

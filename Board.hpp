@@ -1,5 +1,12 @@
 #pragma once
-#include "utility.h"
+//=================================
+// included dependencies
+
+//=================================
+// forward declared dependencies
+template <typename T> class Array2D;
+struct Position;
+struct BoundaryChecker;
 template <typename T>
 class Board
 { 

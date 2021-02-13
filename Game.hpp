@@ -1,21 +1,26 @@
 #pragma once
-#include "Board.hpp"
-#include "UI.hpp"
+#include "elements.hpp"
+//Forward Declarations
+template <typename T>
+class Board;
+enum point : int;
+struct Position;
 
 // TODO: Add ability to play different kinds of games
 // TODO: Add menu
 // TODO: Finish adding go rules
+enum gameStatus {unstarted = 0, started = 1, player_acting = 2, processing_action = 3};
 class Game
 {     
 private:
     /* data */
     Board<point> *board;
-    int board_size = 9;
-    point active_player = empty;
+    int board_size;
+    point active_player;
     Position captured;
     Board<bool> *checked_board;
 public:
-    gameStatus game_status = unstarted;
+    gameStatus game_status;
     Game();
     ~Game();
     void Start();

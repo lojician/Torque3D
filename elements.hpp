@@ -58,10 +58,11 @@ struct SBPosition
 
 struct SurroundingOffsets
 {
-    const Position above = {0,-1};
-    const Position below = {0,1};
-    const Position left = {-1,0};
-    const Position right = {1,0};
+    Position dir[4];
+    const Position above = dir[0] = {0,-1};
+    const Position below = dir[1] = {0,1};
+    const Position left = dir[2] = {-1,0};
+    const Position right = dir[3] = {1,0};
     
 };
 struct BoundaryChecker

@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+//=================================
+// included dependencies
 #include "UI.hpp"
 #include "Save.hpp"
 #include "Board.hpp"
@@ -96,7 +98,8 @@ void Game::HandleOptions()
 }
 bool Game::CheckSuicide(Position pos){
     checked_board->Clear();
-    if(CheckSurrounded(pos, active_player))
+    bool check = CheckSurrounded(pos, active_player);
+    if(check)
     {
         //holds the array size for *enemies
         int num_enemies;

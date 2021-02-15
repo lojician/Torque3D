@@ -3,8 +3,6 @@
 //Forward Declarations
 template <typename T>
 class Board;
-enum point : int;
-struct Position;
 
 // TODO: Add ability to play different kinds of games
 // TODO: Add menu

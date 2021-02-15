@@ -1,12 +1,17 @@
 #include "Save.hpp"
 
+//=================================
+// included dependencies
 #include "Board.hpp"
 #include "UI.hpp"
 #include "elements.hpp"
 #include <fstream>
 #include <string>
 
+//Aliases/namespace inclusions
 using std::fstream;
+
+//initializing class variables
 const string Save::filename = "save";
 
 void Save::LoadGame(Board<point>* board, int board_size, point active_player)

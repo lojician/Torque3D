@@ -1,5 +1,10 @@
+
 #include "UI.hpp"
 
+//=================================
+// included dependencies
+#include "Board.hpp"
+#include "elements.hpp"
 // for cin/cout
 #include<iostream>
 // for <streamsize> 
@@ -9,13 +14,15 @@
 //for find
 #include <algorithm>  
 
-#include "Board.hpp"
-#include "elements.hpp"
 
+
+
+//Aliases/namespace inclusions
 using std::cout,  std::cin;
 using std::string, std::endl;
 //using std::find ,std::begin, std::end;
 
+//initializing class variables
 const string UI::invalid_input =  "Invalid input. Try Again.";
 const string UI::error_oor = "The location is outside the valid range.";
 

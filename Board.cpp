@@ -1,5 +1,7 @@
 #include "Board.hpp"
 
+//=================================
+// included dependencies
 #include "array2d.hpp"
 #include "elements.hpp"
 
@@ -9,15 +11,21 @@ Board<T>::Board(int x)
     //initialize grid and make sure it's clear
     size = x;
     grid = new Array2D<T>(size, size);
+    edge = std::vector<std::vector<bool>>(size, std::vector<bool>(size, false));
+    SetEdges();
     Clear();
+}
+template <class T>
+Board<T>::~Board()
+{
+    delete[] grid;
 }
 
 template <class T>
-bool Board<T>::PlaceElem(Position pos, T piece)
+bool Board<T>::PlaceElem(Position pos, T elem)
 {
     if (grid->at(pos) == empty){
-        //add logic to make sure piece would not be taken
-        grid->at(pos) = piece;
+        grid->at(pos) = elem;
         return true;
     } else {
         return false;
@@ -37,11 +45,30 @@ void Board<T>::Clear()
 }
 
 template <class T>
+void Board<T>::SetEdges()
+{
+    //Mark positions at the edge of the board as so
+    int max = size-1;
+    for(int i = 0; i < size; i++)
+    {
+        edge[0][i] = true;
+        edge[max][i] = true;
+        edge[i][0] = true;
+        edge[i][max] = true;
+    }
+    edge;
+}
+
+template <class T>
 T Board<T>::CheckElem(Position pos)
 {
     return grid->at(pos);
 }
-
+template <class T>
+bool Board<T>::CheckIfEdge(Position pos)
+{
+    return edge[pos.x][pos.y];
+}
 template <class T>
 T * Board<T>::GetRowOfElem(int row)
 {
@@ -59,100 +86,55 @@ void Board<T>::SetRowOfElem(T * elem_row, int row)
     }
 }
 template <class T>
-int Board<T>::CountSurroundingOf(Position pos, T piece)
+int Board<T>::CountSurroundingOf(Position pos, T elem)
 {
-    SurroundingOffsets sur_pos;
-    int i = 0;
-    SBPosition bounded_pos;
-    BoundaryChecker inbounds = BoundsCheck(pos);
-     
-    if(inbounds.above)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.above, piece))
+    //count the number of a 
+    int count = 0;
+    if (CheckIfEdge(pos)){
+        SBPosition inboundpos = BoundsCheckSB(pos);
+        for (int i = 0; i<4;i++)
         {
-            i++;
+            if (inboundpos.boundPositions[i].inbounds)
+            {
+                if (CheckOffsetForElem(pos, inboundpos.boundPositions[i].pos, elem))
+                {
+                    count++;
+                }
+            }
         }
+        return count;
     }
-    if(inbounds.below)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.below, piece))
-        {
-            i++;
-        }
+    for (int i = 0; i < 4; i++){
+        SurroundingOffsets sur_pos;
+        if (CheckOffsetForElem(pos, sur_pos.dir[i], elem))
+            {
+                count++;
+            }
     }
-    if(inbounds.left)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.left, piece))
-        {
-            i++;
-        }
-    }
-    if(inbounds.right)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.right, piece))
-        {
-            i++;
-        }
-    }
-    
-    return i;
+    return count;
 }
 
 template <class T>
 int Board<T>::CountSurroundingPos(Position pos)
 {
-    SurroundingOffsets sur_pos;
-    int i = 0;
-    SBPosition bounded_pos;
-    BoundaryChecker inbounds = BoundsCheck(pos);
+    //count the number of valid positions around a given position
+    if (CheckIfEdge(pos)){
+        int count = 0;
+        BoundaryChecker inbounds = BoundsCheck(pos);
      
-    if(inbounds.above)
-    {
-            i++;
+        for(auto x : inbounds.dir)
+        {
+            if(x)
+            {
+                count++;
+            }
+        }
+        return count;
+    } else {
+        return 4;
     }
-    if(inbounds.below)
-    {
-         i++;
-    }
-    if(inbounds.left)
-    {
-         i++;
-    }
-    if(inbounds.right)
-    {
-         i++;
-    }
-    
-    return i;
 }
 
-template <class T>
-BoundaryChecker Board<T>::BoundsCheck(Position pos)
-{
-    BoundaryChecker check;
-    if(pos.y == 0){
-        check.above = false;
-        check.below = true;
-       
-    } else if(pos.y == (size -1)){
-        check.above = true;
-        check.below = false;
-    } else {
-        check.above = true;
-        check.below = true;
-    }
-    if(pos.x == 0){
-        check.left = false;
-        check.right = true;
-    } else if(pos.x == (size -1)){
-        check.left = true;
-        check.right = false;
-    }else {
-        check.left = true;
-        check.right = true;
-    }
-    return check;
-}
 
 template <class T>
 Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
@@ -189,42 +171,34 @@ Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
 template <class T>
 Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
 {
-    SurroundingOffsets sur_pos;
-    BoundaryChecker inbounds = BoundsCheck(pos);
     Position sur_elem_pos[4];
-    int i = 0;
-    if(inbounds.above)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.above, elem))
+    int count = 0;
+    if (CheckIfEdge(pos)){
+        SBPosition inboundpos = BoundsCheckSB(pos);
+        for (int i = 0; i<4;i++)
         {
-            sur_elem_pos[i++] = sur_pos.above;
+            if (inboundpos.boundPositions[i].inbounds)
+            {
+                if (CheckOffsetForElem(pos, inboundpos.boundPositions[i].pos, elem))
+                {
+                    sur_elem_pos[count++] = pos + inboundpos.boundPositions[i].pos;
+                }
+            }
+        }
+    } else {
+        SurroundingOffsets sur_pos;
+        for (int i = 0; i < 4; i++){
+            SurroundingOffsets sur_pos;
+            if (CheckOffsetForElem(pos, sur_pos.dir[i], elem))
+                {
+                    sur_elem_pos[count++] = pos + sur_pos.dir[i];
+                }
         }
     }
-    if(inbounds.below)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.below, elem))
-        {
-            sur_elem_pos[i++] = sur_pos.below;
-        }
-    }
-    if(inbounds.left)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.left, elem))
-        {
-            sur_elem_pos[i++] = sur_pos.left;
-        }
-    }
-    if(inbounds.right)
-    {
-        if (CheckOffsetForElem(pos, sur_pos.right, elem))
-        {
-            sur_elem_pos[i++] = sur_pos.right;
-        }
-    }
-    arraySize = (i);
-    Position* returning_positions = new Position[(i)];
-    for (int j = 0; j<i; j++){
-        returning_positions[j] = sur_elem_pos[j];
+    arraySize = (count);
+    Position *returning_positions = new Position[count];
+    for (int i = 0; i<count; i++){
+        returning_positions[i] = sur_elem_pos[i];
     }
     //make sure to delete
     return returning_positions;
@@ -256,10 +230,10 @@ T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
          sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.right);
     } 
     
-    T* returning_elems = new T[(arraySize)];
-    for (int j = 0; j<arraySize; j++)
+    T* returning_elems = new T[arraySize];
+    for (int i = 0; i<arraySize; i++)
     {
-        returning_elems[j] = sur_elem[j];
+        returning_elems[i] = sur_elem[i];
     }
     //make sure to delete
     return returning_elems;
@@ -297,9 +271,58 @@ bool Board<T>::CheckOffsetForElem(Position pos, Position offset, T elem)
 }
 
 template <class T>
-Board<T>::~Board()
+BoundaryChecker Board<T>::BoundsCheck(Position pos)
 {
-    delete[] grid;
+    BoundaryChecker check;
+    if(pos.y == 0){
+        check.above = false;
+        check.below = true;
+       
+    } else if(pos.y == (size -1)){
+        check.above = true;
+        check.below = false;
+    } else {
+        check.above = true;
+        check.below = true;
+    }
+    if(pos.x == 0){
+        check.left = false;
+        check.right = true;
+    } else if(pos.x == (size -1)){
+        check.left = true;
+        check.right = false;
+    }else {
+        check.left = true;
+        check.right = true;
+    }
+    return check;
+}
+template <class T>
+SBPosition Board<T>::BoundsCheckSB(Position pos)
+{
+    SBPosition check;
+    if(pos.y == 0){
+        check.above.inbounds = false;
+        check.below.inbounds  = true;
+       
+    } else if(pos.y == (size -1)){
+        check.above.inbounds  = true;
+        check.below.inbounds  = false;
+    } else {
+        check.above.inbounds  = true;
+        check.below.inbounds  = true;
+    }
+    if(pos.x == 0){
+        check.left.inbounds  = false;
+        check.right.inbounds  = true;
+    } else if(pos.x == (size -1)){
+        check.left.inbounds  = true;
+        check.right.inbounds  = false;
+    }else {
+        check.left.inbounds  = true;
+        check.right.inbounds  = true;
+    }
+    return check;
 }
 template class Board<point>;
 template class Board<bool>;

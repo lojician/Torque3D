@@ -86,9 +86,8 @@ void UI::PrintBoard(Board<point> *board, int board_size)
 {
     for(int i = 0; i < board_size; i++)
     {
-        point * lineElems = board->GetRowOfElem(i);
+        vector<point>  lineElems = board->GetRowOfElem(i);
         string line = PH::PointsToString(lineElems, board_size, false);
-        delete[] lineElems;
         PrintLine(line);
     }
 }

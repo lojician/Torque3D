@@ -70,16 +70,16 @@ bool Board<T>::CheckIfEdge(Position pos)
     return edge[pos.x][pos.y];
 }
 template <class T>
-T * Board<T>::GetRowOfElem(int row)
+vector<T> Board<T>::GetRowOfElem(int row)
 {
-    T * returning_elems = new T[(size)]; 
+   vector<T> returning_elems = vector<T>(size); 
     for (int i = 0; i < size; i++){
         returning_elems[i] = grid->at(Position{i,row});
     }
     return returning_elems;
 }
 template <class T>
-void Board<T>::SetRowOfElem(T * elem_row, int row)
+void Board<T>::SetRowOfElem(vector<T> elem_row, int row)
 {
     for (int i = 0; i < size; i++){
         grid->at(Position{i,row}) = elem_row[i];
@@ -137,39 +137,38 @@ int Board<T>::CountSurroundingPos(Position pos)
 
 
 template <class T>
-Position * Board<T>::GetAllSurroundingPositions(Position pos, int& arraySize)
+vector<Position> Board<T>::GetAllSurroundingPositions(Position pos)
 {
     SurroundingOffsets sur_pos;
     Position sur_elem_pos[4];
-    int i = 0;
+    int size = 0;
     if(pos.y == (size -1)){
-        sur_elem_pos[i++] = sur_pos.above;
+        sur_elem_pos[size++] = sur_pos.above;
        
     } else if(pos.y == 0){
-        sur_elem_pos[i++] = sur_pos.below;
+        sur_elem_pos[size++] = sur_pos.below;
     } else {
-        sur_elem_pos[i++] = sur_pos.above;
-        sur_elem_pos[i++] = sur_pos.below;
+        sur_elem_pos[size++] = sur_pos.above;
+        sur_elem_pos[size++] = sur_pos.below;
     }
     if(pos.x == (size -1)){
-        sur_elem_pos[i++] = sur_pos.left;
+        sur_elem_pos[size++] = sur_pos.left;
     } else if(pos.x == 0){
-        sur_elem_pos[i++] = sur_pos.right;
+        sur_elem_pos[size++] = sur_pos.right;
     }else {
-        sur_elem_pos[i++] = sur_pos.left;
-        sur_elem_pos[i++] = sur_pos.right;
+        sur_elem_pos[size++] = sur_pos.left;
+        sur_elem_pos[size++] = sur_pos.right;
     }
-    arraySize = (i);
-    Position* returning_positions = new Position[(i)];
-    for (int j = 0; j<i; j++){
-        returning_positions[j] = sur_elem_pos[j];
+    vector<Position>  returning_positions = vector<Position>(size);
+    for (int i = 0; i<size; i++){
+        returning_positions[i] = sur_elem_pos[i];
     }
     //make sure to delete
     return returning_positions;
 }
 
 template <class T>
-Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
+vector<Position> Board<T>::GetPositionsForElem(Position pos, T elem)
 {
     Position sur_elem_pos[4];
     int count = 0;
@@ -195,8 +194,7 @@ Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
                 }
         }
     }
-    arraySize = (count);
-    Position *returning_positions = new Position[count];
+    vector<Position> returning_positions = vector<Position>(count);
     for (int i = 0; i<count; i++){
         returning_positions[i] = sur_elem_pos[i];
     }
@@ -205,11 +203,11 @@ Position * Board<T>::GetPositionsForElem(Position pos, T elem, int& arraySize)
 }
 
 template <class T>
-T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
+vector<T> Board<T>::GetAllSurroundingElem(Position pos)
 {
     SurroundingOffsets sur_pos;
     T sur_elem[4];
-    arraySize = 0;
+    int arraySize = 0;
     BoundaryChecker inbounds = BoundsCheck(pos);
     
     if(inbounds.above)
@@ -230,7 +228,7 @@ T * Board<T>::GetAllSurroundingElem(Position pos, int& arraySize)
          sur_elem[arraySize++] = GetOffsetPiece(pos, sur_pos.right);
     } 
     
-    T* returning_elems = new T[arraySize];
+    vector<T> returning_elems = vector<T>(arraySize);
     for (int i = 0; i<arraySize; i++)
     {
         returning_elems[i] = sur_elem[i];

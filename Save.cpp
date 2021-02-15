@@ -30,9 +30,8 @@ void Save::SaveBoard(Board<point>* board, int board_size)
     if (save_file.is_open()){
         for(int i = 0; i < board_size; i++)
         {
-            point * lineElems = board->GetRowOfElem(i);
+            vector<point> lineElems = board->GetRowOfElem(i);
             string line = PH::PointsToString(lineElems, board_size, true);
-            delete[] lineElems;
             save_file << line << "\n";
         }
         save_file.close();
@@ -48,16 +47,16 @@ void Save::LoadBoard(Board<point>* board, int board_size)
         int i = 0;
         while(getline(save_file, line))
         {
-            point * p_row = StringToPoints(line, board_size);
+            vector<point> p_row = StringToPoints(line, board_size);
             board->SetRowOfElem(p_row , i++);
         }
          save_file.close();
     }
    
 }
-point * Save::StringToPoints(string point_string, int size)
+vector<point> Save::StringToPoints(string point_string, int size)
 {
-    point * returning_points = new point[size];
+    vector<point> returning_points = vector<point>(size);
     for (int i; i < size; i++) {
         if(point_string[i] == 'b'){
             returning_points[i] = black;

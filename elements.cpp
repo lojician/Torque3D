@@ -1,7 +1,5 @@
 #include "elements.hpp"
-#include <string>
-using std::string;
-string PH::PointsToString(point * points, int size, bool saving)
+string PH::PointsToString(vector<point> points, int size, bool saving)
 {
     string return_string  = "";
     

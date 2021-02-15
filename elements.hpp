@@ -1,10 +1,14 @@
 
 #pragma once
 #include <string>
+#include <vector>
+
+using std::vector;
+using std::string;
 
 enum point : int {empty = 0, black = 1, white = -1};
 namespace PH{
-    std::string PointsToString(point * points, int size, bool saving);
+    std::string PointsToString(vector<point> points, int size, bool saving);
 }
 
 struct Position

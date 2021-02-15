@@ -2,6 +2,7 @@
 #include <vector>
 //=================================
 // forward declared dependencies
+using std::vector;
 template <typename T> class Array2D;
 struct Position;
 struct BoundaryChecker;
@@ -27,15 +28,15 @@ public:
     bool CheckIfEdge(Position);
     void Clear();
     void SetEdges();
-    T * GetRowOfElem(int);
-    void SetRowOfElem(T*, int);
+    vector<T> GetRowOfElem(int);
+    void SetRowOfElem(vector<T>, int);
     int CountSurroundingOf(Position, T);
     int CountSurroundingPos(Position);
     BoundaryChecker BoundsCheck(Position);
     SBPosition BoundsCheckSB(Position);
-    Position * GetAllSurroundingPositions(Position, int&);
-    Position * GetPositionsForElem(Position, T, int&);
-    T * GetAllSurroundingElem(Position, int&);
+    vector<Position> GetAllSurroundingPositions(Position);
+    vector<Position> GetPositionsForElem(Position, T);
+    vector<T> GetAllSurroundingElem(Position);
     T GetOffsetPiece(Position, Position);
     bool CheckOffset(Position, Position);
     bool CheckOffsetForElem(Position, Position, T);

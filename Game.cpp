@@ -96,28 +96,28 @@ void Game::HandleOptions()
         Save::SaveBoard(board, board_size);
     } 
 }
+
 bool Game::CheckSuicide(Position pos){
     checked_board->Clear();
     bool check = CheckSurrounded(pos, active_player);
     if(check)
     {
-        //holds the array size for *enemies
-        int num_enemies;
         point enemy = static_cast<point>(active_player * -1);
-        Position *enemies = board->GetPositionsForElem(pos, enemy, num_enemies);
+        vector<Position> enemies = board->GetPositionsForElem(pos, enemy);
         //check capture of surrounding enemies
-        for (size_t i; i < num_enemies; i++)
+        for (size_t i = 0 ; i < enemies.size(); i++)
         {
+            board->PlaceElem(pos, active_player);
             if(CheckCapture(enemies[i], enemy))
             {
+                board->RemoveElem(pos);
                 return false;
             }
         }
         //if execution arrives here all enemies are safe
-        if (num_enemies == board->CountSurroundingPos(pos)){
+        if (enemies.size() == board->CountSurroundingPos(pos)){
             return true;
         }
-        delete[] enemies;
         if(CheckCapture(pos, active_player))
         {
             return true;
@@ -128,17 +128,30 @@ bool Game::CheckSuicide(Position pos){
         return false;
     }
 }
+
+bool Game::CheckSurrounded(Position pos, point piece)
+{
+    vector<point> sur_pieces =  board->GetAllSurroundingElem(pos);
+    for(int i = 0; i < sur_pieces.size();i++)
+    {
+        if(sur_pieces[i]==empty){
+            return false;
+        }
+    }
+    return true;
+}
+
 bool Game::CheckCapture(Position pos, point piece)
 {  
     if(CheckSurrounded(pos, piece))
     {
-        int num_enemies;
+        //look for first empty space amongst connected comrades
+        
         point enemy = static_cast<point>(piece * -1);
-        Position *enemies = board->GetPositionsForElem(pos, enemy, num_enemies);
-        if (num_enemies == board->CountSurroundingPos(pos)){
+        vector<Position> enemies = board->GetPositionsForElem(pos, enemy);
+        if (enemies.size() == board->CountSurroundingPos(pos)){
             return true;
         }
-        delete[] enemies;
         if (CheckAllXForY(pos, piece, empty))
         {
             return false;
@@ -146,20 +159,18 @@ bool Game::CheckCapture(Position pos, point piece)
         {
             return true;
         }     
-        //look for first empty space amongst connected comrades
-        
         return false;
     }
+    return false;
 }
 
 bool Game::CheckAllXForY(Position pos, point x, point y)
 {
     if (!checked_board->CheckElem(pos))
     {
-        int num_comrade;
-        Position *comrades = board->GetPositionsForElem(pos, x, num_comrade);
+        vector<Position> comrades = board->GetPositionsForElem(pos, x);
         checked_board->PlaceElem(pos, true);
-        for (int i; i < num_comrade; i++)
+        for (int i; i < comrades.size(); i++)
         {
             if (comrades[i]==y)
             {
@@ -178,21 +189,6 @@ bool Game::CheckAllXForY(Position pos, point x, point y)
         return false;
     }
 }
-
-bool Game::CheckSurrounded(Position pos, point piece)
-{
-    int num_pieces = 0;
-    point *sur_pieces =  board->GetAllSurroundingElem(pos, num_pieces);
-    for(int i; i < num_pieces;i++)
-    {
-        if(sur_pieces[i]==empty){
-            return false;
-        }
-    }
-    return true;
-}
-
-
 
 
 

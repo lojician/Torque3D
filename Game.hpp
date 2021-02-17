@@ -17,6 +17,7 @@ private:
     point active_player;
     Position captured;
     Board<bool> *checked_board;
+    int whites_caps, blacks_caps;
 public:
     gameStatus game_status;
     Game();
@@ -25,11 +26,12 @@ public:
     void Play();
     void DetermineTurn();
     void PlayerAction();
-    void ProcessTurn(Position);
+    void ProcessAction(Position);
     bool CheckCapture(Position, point);
     bool CheckSuicide(Position);
     bool CheckSurrounded(Position,point);
     bool CheckAllXForY(Position, point, point);
+    void CaptureAllConnected(Position, point);
     void HandleOptions();
     void CalculateScore();
     void End();

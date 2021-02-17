@@ -27,6 +27,8 @@ void Game::Start()
 {
     captured = {-1, -1};
     game_status = started;
+    whites_caps = 0;
+    blacks_caps = 0;
     Play();
 }
 void Game::Play()
@@ -66,9 +68,10 @@ void Game::PlayerAction()
             bool valid = false;
             pos = UI::GetPosition(board_size);
             while(!valid){
-
-                if( pos != captured && !(CheckSuicide(pos)) ){
+                bool suicide =CheckSuicide(pos);
+                if( pos != captured && !(suicide) ){
                     valid = board->PlaceElem(pos, active_player);
+                    ProcessAction(pos);
                 }
                 
                 if (!valid){
@@ -87,6 +90,7 @@ void Game::PlayerAction()
         }
     }
 }
+
 void Game::HandleOptions()
 {
     char option = UI::Options();
@@ -99,29 +103,44 @@ void Game::HandleOptions()
 
 bool Game::CheckSuicide(Position pos){
     checked_board->Clear();
-    bool check = CheckSurrounded(pos, active_player);
-    if(check)
+    if(CheckSurrounded(pos, active_player))
     {
-        point enemy = static_cast<point>(active_player * -1);
-        vector<Position> enemies = board->GetPositionsForElem(pos, enemy);
-        //check capture of surrounding enemies
-        for (size_t i = 0 ; i < enemies.size(); i++)
+        //temperory place piece to check consequences make sure to delete
+        board->PlaceElem(pos, active_player);
+        //check surrounding friends for free space
+        auto friends_positions = board->GetPositionsForElem(pos, active_player);
+        for (size_t i = 0 ; i < friends_positions.size(); i++)
         {
-            board->PlaceElem(pos, active_player);
-            if(CheckCapture(enemies[i], enemy))
+            if(CheckAllXForY(friends_positions[i], active_player, empty)){
+                board->RemoveElem(pos);
+                return false;
+            }
+        }
+
+        point enemy = static_cast<point>(active_player * -1);
+        auto enemy_positions = board->GetPositionsForElem(pos, enemy);
+        
+        //check capture of surrounding enemies
+        for (size_t i = 0 ; i < enemy_positions.size(); i++)
+        {
+            
+            if(CheckCapture(enemy_positions[i], enemy))
             {
                 board->RemoveElem(pos);
                 return false;
             }
         }
-        //if execution arrives here all enemies are safe
-        if (enemies.size() == board->CountSurroundingPos(pos)){
+        //if execution arrives here all enemies are safe --h
+        if (enemy_positions.size() == board->CountSurroundingPos(pos)){
+            board->RemoveElem(pos);
             return true;
         }
         if(CheckCapture(pos, active_player))
         {
+            board->RemoveElem(pos);
             return true;
         } else {
+            board->RemoveElem(pos);
             return false;
         }
     } else {
@@ -129,24 +148,11 @@ bool Game::CheckSuicide(Position pos){
     }
 }
 
-bool Game::CheckSurrounded(Position pos, point piece)
-{
-    vector<point> sur_pieces =  board->GetAllSurroundingElem(pos);
-    for(int i = 0; i < sur_pieces.size();i++)
-    {
-        if(sur_pieces[i]==empty){
-            return false;
-        }
-    }
-    return true;
-}
-
 bool Game::CheckCapture(Position pos, point piece)
 {  
     if(CheckSurrounded(pos, piece))
     {
         //look for first empty space amongst connected comrades
-        
         point enemy = static_cast<point>(piece * -1);
         vector<Position> enemies = board->GetPositionsForElem(pos, enemy);
         if (enemies.size() == board->CountSurroundingPos(pos)){
@@ -164,13 +170,25 @@ bool Game::CheckCapture(Position pos, point piece)
     return false;
 }
 
+bool Game::CheckSurrounded(Position pos, point piece)
+{
+    vector<point> sur_pieces =  board->GetAllSurroundingElem(pos);
+    for(int i = 0; i < sur_pieces.size();i++)
+    {
+        if(sur_pieces[i]==empty){
+            return false;
+        }
+    }
+    return true;
+}
+
 bool Game::CheckAllXForY(Position pos, point x, point y)
 {
     if (!checked_board->CheckElem(pos))
     {
         vector<Position> comrades = board->GetPositionsForElem(pos, x);
         checked_board->PlaceElem(pos, true);
-        for (int i; i < comrades.size(); i++)
+        for (int i = 0; i < comrades.size(); i++)
         {
             if (comrades[i]==y)
             {
@@ -190,11 +208,45 @@ bool Game::CheckAllXForY(Position pos, point x, point y)
     }
 }
 
+void Game::CaptureAllConnected(Position pos, point point)
+{
+    vector<Position> comrades = board->GetPositionsForElem(pos, point);
+    board->RemoveElem(pos);
 
+    if (point == black){
+        whites_caps += 1;
+    } else if (point == white){
+        blacks_caps += 1;
+    }else {
+        UI::PrintLine("somthing's wrong");
+    }
 
-void Game::ProcessTurn(Position pos)
+    for (int i = 0; i < comrades.size(); i++)
+    {
+        CaptureAllConnected(comrades[i], point);
+    }
+}
+
+void Game::ProcessAction(Position pos)
 {
     //process the consequences of the players turn
+    point enemy = static_cast<point>(active_player * -1);
+    vector<Position> enemies = board->GetPositionsForElem(pos, enemy);
+    for (size_t i = 0 ; i < enemies.size(); i++)
+    {
+        if(board->CheckElem(enemies[i]) == enemy){
+            if(CheckCapture(enemies[i], enemy)){
+                CaptureAllConnected(enemies[i], enemy);
+            }
+        }
+    }
+    int score;
+    if (active_player == black){
+        score = blacks_caps;
+    } else if(active_player == white){
+        score = whites_caps;
+    }
+    UI::PrintPlayersScore(score, active_player);
 }
 void Game::CalculateScore()
 {

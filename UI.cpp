@@ -91,8 +91,22 @@ void UI::PrintBoard(Board<point> *board, int board_size)
         PrintLine(line);
     }
 }
-
-
+string UI::GetPointString(point p)
+{
+    if (p == black)
+    {
+        return "Black";
+    } else if (p = white) {
+        return "White";
+    }
+    return "none";
+}
+void UI::PrintPlayersScore(int i_score, point player_in)
+{
+    string player = GetPointString(player_in);
+    string score =  std::to_string(i_score);
+    PrintLine(player + " has " + score + " caps.");
+}
 
 char UI::StartEntry()
 {

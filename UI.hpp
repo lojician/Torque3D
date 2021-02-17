@@ -31,5 +31,7 @@ public:
     static void TurnAnnouncement(string);
     static void PrintBoard(Board<point>*, int);
     static string PointsToString(point *, int, bool);
+    static string GetPointString(point);
+    static void PrintPlayersScore(int, point);
 
 };

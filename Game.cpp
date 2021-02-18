@@ -68,10 +68,22 @@ void Game::PlayerAction()
             bool valid = false;
             pos = UI::GetPosition(board_size);
             while(!valid){
-                bool suicide =CheckSuicide(pos);
-                if( pos != captured && !(suicide) ){
-                    valid = board->PlaceElem(pos, active_player);
-                    ProcessAction(pos);
+                
+                if(pos != captured)
+                {
+                    if (board->PlaceElem(pos, active_player))
+                    {
+                        bool suicide =CheckSuicide(pos);
+                        if (!suicide)
+                        {
+                            valid = true;
+                            ProcessAction(pos);
+
+                        } else 
+                        {
+                            board->RemoveElem(pos);
+                        }
+                    }
                 }
                 
                 if (!valid){
@@ -102,17 +114,14 @@ void Game::HandleOptions()
 }
 
 bool Game::CheckSuicide(Position pos){
-    checked_board->Clear();
     if(CheckSurrounded(pos, active_player))
     {
-        //temperory place piece to check consequences make sure to delete
-        board->PlaceElem(pos, active_player);
         //check surrounding friends for free space
         auto friends_positions = board->GetPositionsForElem(pos, active_player);
+        checked_board->Clear();
         for (size_t i = 0 ; i < friends_positions.size(); i++)
         {
             if(CheckAllXForY(friends_positions[i], active_player, empty)){
-                board->RemoveElem(pos);
                 return false;
             }
         }
@@ -126,23 +135,22 @@ bool Game::CheckSuicide(Position pos){
             
             if(CheckCapture(enemy_positions[i], enemy))
             {
-                board->RemoveElem(pos);
                 return false;
             }
         }
-        //if execution arrives here all enemies are safe --h
-        if (enemy_positions.size() == board->CountSurroundingPos(pos)){
-            board->RemoveElem(pos);
-            return true;
-        }
-        if(CheckCapture(pos, active_player))
-        {
-            board->RemoveElem(pos);
-            return true;
-        } else {
-            board->RemoveElem(pos);
-            return false;
-        }
+        
+        return true;
+
+        // //if execution arrives here all enemies are safe --h
+        // if (enemy_positions.size() == board->CountSurroundingPos(pos)){
+        //     return true;
+        // }
+        // if(CheckCapture(pos, active_player))
+        // {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     } else {
         return false;
     }
@@ -158,6 +166,7 @@ bool Game::CheckCapture(Position pos, point piece)
         if (enemies.size() == board->CountSurroundingPos(pos)){
             return true;
         }
+        checked_board->Clear();
         if (CheckAllXForY(pos, piece, empty))
         {
             return false;
@@ -186,20 +195,17 @@ bool Game::CheckAllXForY(Position pos, point x, point y)
 {
     if (!checked_board->CheckElem(pos))
     {
+        vector<Position> target = board->GetPositionsForElem(pos, y);
+        if (target.size() > 0){
+            return true;
+        }
         vector<Position> comrades = board->GetPositionsForElem(pos, x);
         checked_board->PlaceElem(pos, true);
         for (int i = 0; i < comrades.size(); i++)
         {
-            if (comrades[i]==y)
-            {
+            //check adjacencies
+            if (CheckAllXForY(comrades[i], x, y)){
                 return true;
-            }
-            if (comrades[i]==x)
-            {
-                //check adjacencies
-                if (CheckAllXForY(comrades[i], x, y)){
-                    return true;
-                }
             }
         }
         return false;

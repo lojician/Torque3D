@@ -24,7 +24,8 @@ public:
     ~Board();
     bool PlaceElem(Position, T);
     void RemoveElem(Position);
-    T CheckElem(Position);
+    T GetElem(Position);
+    bool CheckPosFor(Position, T);
     bool CheckIfEdge(Position);
     void Clear();
     void SetEdges();
@@ -34,9 +35,10 @@ public:
     int CountSurroundingPos(Position);
     BoundaryChecker BoundsCheck(Position);
     SBPosition BoundsCheckSB(Position);
-    vector<Position> GetAllSurroundingPositions(Position);
-    vector<Position> GetPositionsForElem(Position, T);
+    vector<Position> GetAllSurrPos(Position);
+    vector<Position> GetPosForSurrElems(Position, T);
     vector<T> GetAllSurroundingElem(Position);
+    vector<Position> GetAllPosForElem(T);
     T GetOffsetPiece(Position, Position);
     bool CheckOffset(Position, Position);
     bool CheckOffsetForElem(Position, Position, T);

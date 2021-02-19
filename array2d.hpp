@@ -31,6 +31,14 @@ public:
             array[i] = static_cast<T>(0);
         }
     }
+    unsigned int GetSize(){
+        return size;
+    }
+    T& at(unsigned int i) {
+        if(i > size) throw std::out_of_range("Array2d out of range");
+
+        return array[i];
+    }
     T& at(unsigned int x, unsigned int y) {
         if((x > sizeX) || (y > sizeY))
             throw std::out_of_range("Array2d out of range");

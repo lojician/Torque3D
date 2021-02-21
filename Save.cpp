@@ -5,7 +5,7 @@
 #include "Board.hpp"
 #include "UI.hpp"
 #include "elements.hpp"
-#include "GameState.hpp"
+#include "MatchInfo.hpp"
 #include <fstream>
 #include <string>
 
@@ -22,7 +22,7 @@ const string Save::BoardSave = "save";
  * TODO: and can  be passed between Game and Save;
 */
 
-void Save::SaveGame(Board<point>* board, MatchInfo& save)
+void Save::SaveGame(Board<point>* board, MatchInfo* save)
 {
     std::ofstream save_file (GameSave);
     //fstream save_file;
@@ -30,21 +30,21 @@ void Save::SaveGame(Board<point>* board, MatchInfo& save)
     
     if (save_file.is_open()){
         //turn parameters to string and push on vector
-        string first_line = save.GetSaveString();
+        string first_line = save->GetSaveString();
         save_file << first_line << "\n";
 
         //Save the board state to rest of file
-        for(int i = 0; i < save.board_size; i++)
+        for(int i = 0; i < save->board_size; i++)
         {
             vector<point> lineElems = board->GetRowOfElem(i);
-            string line = PH::PointsToString(lineElems, save.board_size, true);
+            string line = PH::PointsToString(lineElems, save->board_size, true);
             save_file << line << "\n";
         }
         save_file.close();
     }
 }
 
-void Save::LoadGame(Board<point>* board, MatchInfo& save)
+void Save::LoadGame(Board<point>* board, MatchInfo* save)
 {
     fstream save_file;
     save_file.open (GameSave);
@@ -53,13 +53,13 @@ void Save::LoadGame(Board<point>* board, MatchInfo& save)
         //get first line containing game stat info
         string first_line;
         getline(save_file, first_line);
-        save.LoadSaveFile(first_line);
+        save->LoadSaveFile(first_line);
         //get and set the state of the board from rest of file
         string line;
         int i = 0;
         while(getline(save_file, line))
         {
-            vector<point> p_row = StringToPoints(line, save.board_size);
+            vector<point> p_row = StringToPoints(line, save->board_size);
             board->SetRowOfElem(p_row , i++);
         }
          save_file.close();

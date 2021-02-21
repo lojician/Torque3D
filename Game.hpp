@@ -12,7 +12,7 @@ class Game
 {     
 private:
     /* data */
-    MatchInfo match = MatchInfo();
+    MatchInfo *match;
     Board<point> *board;
     Board<bool> *checked_board;
     int start_bias;

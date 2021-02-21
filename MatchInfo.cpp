@@ -1,18 +1,17 @@
 #include "MatchInfo.hpp"
 #include "Save.hpp"
+#include "Board.hpp"
 
-void MatchInfo::LoadSaveFile(string state_info) 
+MatchInfo::MatchInfo(int b_size)
 {
-    vector<string> state_strings = util::getStringParts(state_info, delim);
-    int i = 0;
-    board_size = std::stoi(state_strings[i++]);
-    active_player = static_cast<point>(std::stoi(state_strings[i++]));
-    passed_last_turn = std::stoi(state_strings[i++]);
-    blacks_caps = std::stoi(state_strings[i++]);
-    whites_caps = std::stoi(state_strings[i++]);
-    captured = {(std::stoi(state_strings[i++])), (std::stoi(state_strings[i++]))};
+    board_size = b_size;
+    active_player = empty;
+    board = new Board<point>(board_size);
 }
+MatchInfo::~MatchInfo()
+{
 
+}
 string MatchInfo::GetSaveString() 
 {
     vector<string> stringified;
@@ -29,3 +28,26 @@ string MatchInfo::GetSaveString()
     }
     return save_string;
 }
+void MatchInfo::LoadSaveFile(string state_info) 
+{
+    vector<string> state_strings = util::getStringParts(state_info, delim);
+    int i = 0;
+    board_size = std::stoi(state_strings[i++]);
+    active_player = static_cast<point>(std::stoi(state_strings[i++]));
+    passed_last_turn = std::stoi(state_strings[i++]);
+    blacks_caps = std::stoi(state_strings[i++]);
+    whites_caps = std::stoi(state_strings[i++]);
+    captured = {(std::stoi(state_strings[i++])), (std::stoi(state_strings[i++]))};
+}
+
+void MatchInfo::SaveGame() 
+{
+    Save::SaveGame(board, this);
+}
+
+void MatchInfo::LoadGame() 
+{
+    Save::LoadGame(board, this);
+}
+
+

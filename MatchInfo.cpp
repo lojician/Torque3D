@@ -1,0 +1,31 @@
+#include "MatchInfo.hpp"
+#include "Save.hpp"
+
+void MatchInfo::LoadSaveFile(string state_info) 
+{
+    vector<string> state_strings = util::getStringParts(state_info, delim);
+    int i = 0;
+    board_size = std::stoi(state_strings[i++]);
+    active_player = static_cast<point>(std::stoi(state_strings[i++]));
+    passed_last_turn = std::stoi(state_strings[i++]);
+    blacks_caps = std::stoi(state_strings[i++]);
+    whites_caps = std::stoi(state_strings[i++]);
+    captured = {(std::stoi(state_strings[i++])), (std::stoi(state_strings[i++]))};
+}
+
+string MatchInfo::GetSaveString() 
+{
+    vector<string> stringified;
+    stringified.push_back(std::to_string(board_size));
+    stringified.push_back(std::to_string(active_player));
+    stringified.push_back(std::to_string(passed_last_turn));
+    stringified.push_back(std::to_string(blacks_caps));
+    stringified.push_back(std::to_string(whites_caps));
+    stringified.push_back(captured.get_string(delim));
+    string save_string;
+    for (auto& x : stringified) {
+        x+=" ";
+        save_string += x;
+    }
+    return save_string;
+}

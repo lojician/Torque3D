@@ -3,7 +3,7 @@
 //Forward Declarations
 template <typename T>
 class Board;
-
+class MatchInfo;
 // TODO: Add ability to play different kinds of games
 // TODO: Add menu
 // TODO: Finish adding go rules
@@ -12,14 +12,10 @@ class Game
 {     
 private:
     /* data */
+    MatchInfo match = MatchInfo();
     Board<point> *board;
-    int board_size;
-    point active_player;
-    Position captured;
     Board<bool> *checked_board;
     int start_bias;
-    int whites_caps, blacks_caps;
-    bool passed_last_turn;
     //move control variables out of class scope and back into local scopes
     int control_counter;
     point controlling_player;
@@ -39,7 +35,6 @@ public:
     bool CheckAllXForY(Position, point, point);
     void CaptureAllConnected(Position, point);
     bool CheckContiguousEmpty(Position, point);
-    void SetGameParameters(int board_size, point active_player, bool passed, int blacks_caps, int white_caps);
     void HandleOptions();
     void CalculateScore();
     bool CalculateTerritory(Position);

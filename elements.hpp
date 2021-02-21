@@ -41,7 +41,19 @@ struct Position
     bool operator==(const Position& other) const {
         return (x == other.x && y == other.y);
     }
-
+    vector<string> get_vstring() const{
+        vector<string> vs_pos;
+        vs_pos.push_back(std::to_string(x));
+        vs_pos.push_back(std::to_string(y));
+        return vs_pos;
+    }
+    string get_string(const char delim = ' ') const{
+        string s_pos;
+        s_pos+=std::to_string(x);
+        s_pos+=delim;
+        s_pos+=std::to_string(y);
+        return s_pos;
+    }
 };
 struct BoundPosition
 {

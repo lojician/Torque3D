@@ -60,7 +60,7 @@ void Save::SaveGame(Board<point>* board, int board_size, point active_player, bo
             x+=" ";
             first_line += x;
         }
-        save_file << first_line << "n";
+        save_file << first_line << "\n";
 
         //Save the board state to rest of file
         for(int i = 0; i < board_size; i++)

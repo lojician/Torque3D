@@ -31,6 +31,7 @@ void Game::Start()
     whites_caps = 0;
     blacks_caps = 0;
     passed_last_turn = false;
+    controlling_player = empty;
     Play();
 }
 void Game::Play()
@@ -242,17 +243,17 @@ bool Game::CheckContiguousEmpty(Position pos, point first_contact=empty)
     bool controlled = true;
     if (!checked_board->GetElem(pos))
     {
-        vector<point> target = board->GetAllSurroundingElem(pos);
+        vector<point> adjacent = board->GetAllSurroundingElem(pos);
         //point first_contact = empty;
         
-        for (size_t i = 0; i < target.size(); i++)
+        for (auto contact : adjacent)
         {
-            if (target[i] != empty){
+            if (contact != empty){
                 if (first_contact == empty)
                 {
-                    first_contact = target[i];
+                    first_contact = contact;
                     controlling_player = first_contact;
-                } else if (first_contact != target[i]) {
+                } else if (first_contact != contact) {
                     //try returning controlling player instead of controlled bool to move controlling player out of class scope
                     controlling_player = empty;
                     controlled = false;
@@ -264,7 +265,7 @@ bool Game::CheckContiguousEmpty(Position pos, point first_contact=empty)
         vector<Position> empties = board->GetPosForSurrElems(pos, empty);
         for (int i = 0; i < empties.size(); i++)
         {
-            controlled = CheckContiguousEmpty(pos, first_contact);
+            controlled = CheckContiguousEmpty(empties[i], first_contact);
         }
         return controlled;
     } else {

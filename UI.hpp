@@ -33,5 +33,5 @@ public:
     static string PointsToString(point *, int, bool);
     static string GetPointString(point);
     static void PrintPlayersScore(int, point);
-
+    static void PrintFinalScores(int black, int white);
 };

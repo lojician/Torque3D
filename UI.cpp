@@ -101,12 +101,6 @@ string UI::GetPointString(point p)
     }
     return "none";
 }
-void UI::PrintPlayersScore(int i_score, point player_in)
-{
-    string player = GetPointString(player_in);
-    string score =  std::to_string(i_score);
-    PrintLine(player + " has " + score + " caps.");
-}
 
 char UI::StartEntry()
 {
@@ -158,3 +152,19 @@ void UI::TurnAnnouncement(string player)
     string AnnounceTurn = "It is " + player + " turn to act.";
     PrintLine(AnnounceTurn);
 }
+
+void UI::PrintPlayersScore(int i_score, point player_in)
+{
+    string player = GetPointString(player_in);
+    string score =  std::to_string(i_score);
+    PrintLine(player + " has " + score + " caps.");
+}
+
+void UI::PrintFinalScores(int i_black_score, int i_white_score) 
+{
+    string black_score = std::to_string(i_black_score);
+    string white_score = std::to_string(i_white_score);
+    PrintLine("Black has " + black_score + " points.");
+    PrintLine("White has " + white_score + " points.");
+}
+

@@ -20,6 +20,9 @@ private:
     int start_bias;
     int whites_caps, blacks_caps;
     bool passed_last_turn;
+    //move control variables out of class scope and back into local scopes
+    int control_counter;
+    point controlling_player;
 public:
     gameStatus game_status;
     Game();
@@ -35,7 +38,9 @@ public:
     bool CheckSurrounded(Position,point);
     bool CheckAllXForY(Position, point, point);
     void CaptureAllConnected(Position, point);
+    bool CheckContiguousEmpty(Position, point);
+    void SetGameParameters(int board_size, point active_player, bool passed, int blacks_caps, int white_caps);
     void HandleOptions();
     void CalculateScore();
-    bool CheckControl(Position);
+    bool CalculateTerritory(Position);
 };

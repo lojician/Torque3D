@@ -10,7 +10,7 @@ MatchInfo::MatchInfo(int b_size)
 }
 MatchInfo::~MatchInfo()
 {
-
+    delete board;
 }
 string MatchInfo::GetSaveString() 
 {
@@ -23,7 +23,7 @@ string MatchInfo::GetSaveString()
     stringified.push_back(captured.get_string(delim));
     string save_string;
     for (auto& x : stringified) {
-        x+=" ";
+        x+=delim;
         save_string += x;
     }
     return save_string;
@@ -42,12 +42,20 @@ void MatchInfo::LoadSaveFile(string state_info)
 
 void MatchInfo::SaveGame() 
 {
-    Save::SaveGame(board, this);
+    vector<string> save;
+    string first_line = GetSaveString();
+    save.push_back(first_line);
+    vector<string> board_lines = Save::BoardToStrs(board, board_size);
+    save += board_lines;
+    Save::SaveFile("GameSave", save);
 }
 
 void MatchInfo::LoadGame() 
 {
-    Save::LoadGame(board, this);
+    auto save_file = Save::LoadFile("GameSave");
+    LoadSaveFile(save_file[0]);
+    save_file.erase(save_file.begin());
+    Save::LoadBoard(board, board_size, save_file);
 }
 
 

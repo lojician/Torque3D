@@ -8,7 +8,8 @@ using std::string;
 
 enum point : int {empty = 0, black = 1, white = -1};
 namespace PH{
-    std::string PointsToString(vector<point> points, int size, bool saving);
+    string PointsToString(vector<point> points, int size, bool saving);
+    vector<point> StringToPoints(string point_string, int size);
 }
 
 struct Position

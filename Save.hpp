@@ -6,13 +6,14 @@ enum point : int;
 class MatchInfo;
 class Save{
     private:
-
+    static const string save_name;
+    static int save_slots;
     public:
-    static const string BoardSave;
-    static const string GameSave;
-    static vector<point> StringToPoints(string, int);
-    static void LoadBoard(Board<point>*, int);
-    static void SaveBoard(Board<point>*, int);
-    static void LoadGame(Board<point>*, MatchInfo*);
-    static void SaveGame(Board<point>* board, MatchInfo*);
+    static void LoadGame (MatchInfo*);
+    static void SaveGame(MatchInfo*);
+    static vector<string> BoardToStrs(Board<point>*, int);
+    static void LoadBoard(Board<point>*, int, vector<string>);
+    static void SaveFile(string name, vector<string> contents);
+    static vector<string> LoadFile(string name);
+
 };

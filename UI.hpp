@@ -7,14 +7,14 @@ using std::string;
 // forward declared dependencies
 template <typename T>
 class Board;
-enum point : int;
+enum class point : char;
 struct Position;
 class UI
 {
 private:
     static const string invalid_input;
     static const string error_oor;
-    
+
 public:
     static void ClearBuffer();
     static void PrintLine(string);
@@ -25,7 +25,7 @@ public:
     static char StartEntry();
     static char PlayMenu();
     static char Options();
-    template <typename T> 
+    template <typename T>
     static T GetInput(T);
     static Position GetPosition(int);
     static void TurnAnnouncement(string);

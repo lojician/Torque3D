@@ -7,19 +7,21 @@
 #include "elements.hpp"
 // for cin/cout
 #include<iostream>
-// for <streamsize> 
-#include<ios>      
-// for numeric_limits 
-#include<limits>  
+// for <streamsize>
+#include<ios>
+// for numeric_limits
+#include<limits>
 //for find
-#include <algorithm>  
+#include <algorithm>
 
 
 
 
 //Aliases/namespace inclusions
-using std::cout,  std::cin;
-using std::string, std::endl;
+using std::cout;
+using std::cin;
+using std::string;
+using std::endl;
 //using std::find ,std::begin, std::end;
 
 //initializing class variables
@@ -41,26 +43,26 @@ void UI::PrintLine(string out)
 string UI::GetStringInput(string output)
 {
     PrintLine(output);
-    string type;
+    string type="";
     return GetInput(type);
 }
 char UI::GetCharInput(string output)
 {
     PrintLine(output);
-    char type;
+    char type=0;
     return GetInput(type);
 }
 int UI::GetIntInput(string output)
 {
     PrintLine(output);
-    int type;
+    int type=0;
     return GetInput(type);
 }
-template <typename T> 
+template <typename T>
 T UI::GetInput(T input)
 {
     while(!(cin >> input))
-    {   
+    {
         ClearBuffer();
         PrintLine(invalid_input);
     }
@@ -93,10 +95,10 @@ void UI::PrintBoard(Board<point> *board, int board_size)
 }
 string UI::GetPointString(point p)
 {
-    if (p == black)
+    if (p == point::black)
     {
         return "Black";
-    } else if (p = white) {
+    } else if (p == point::white) {
         return "White";
     }
     return "none";
@@ -112,13 +114,13 @@ char UI::StartEntry()
 }
 char UI::PlayMenu()
 {
-    string pass_play_out = "To Take your turn enter t, to pass enter p to get more options enter o \n";  
+    string pass_play_out = "To Take your turn enter t, to pass enter p to get more options enter o \n";
     char valid_in[] = {'t', 'p','o'};
     return GetValidChar(valid_in, sizeof(valid_in), pass_play_out);
 }
 char UI::Options()
 {
-    string opt_out = "(l) to load board (s) to save game (e) to exit \n";  
+    string opt_out = "(l) to load board (s) to save game (e) to exit \n";
     char valid_in[] = {'l', 's','e'};
     return GetValidChar(valid_in, sizeof(valid_in), opt_out);
 }
@@ -137,10 +139,10 @@ Position UI::GetPosition(int board_size)
         pos.y = GetIntInput(row_req);
         if ((pos.x >= 0 && pos.x < board_size)&&(pos.y >= 0&& pos.y < board_size)){
             return pos;
-        } else if(pos.x < 0 && pos.x >= board_size){ 
+        } else if(pos.x < 0 && pos.x >= board_size){
             PrintLine(error_oor);
             pos.x = GetIntInput(col_req);
-        } else if(pos.y < 0 && pos.y >= board_size){ 
+        } else if(pos.y < 0 && pos.y >= board_size){
             PrintLine(error_oor);
             pos.y = GetIntInput(row_req);
         }
@@ -160,7 +162,7 @@ void UI::PrintPlayersScore(int i_score, point player_in)
     PrintLine(player + " has " + score + " caps.");
 }
 
-void UI::PrintFinalScores(int i_black_score, int i_white_score) 
+void UI::PrintFinalScores(int i_black_score, int i_white_score)
 {
     string black_score = std::to_string(i_black_score);
     string white_score = std::to_string(i_white_score);

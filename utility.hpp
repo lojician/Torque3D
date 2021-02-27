@@ -4,7 +4,6 @@
 using std::vector;
 using std::string;
 
-
 //Add common items to namespace
 
 namespace util{

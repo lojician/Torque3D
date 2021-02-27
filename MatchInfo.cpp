@@ -5,18 +5,18 @@
 MatchInfo::MatchInfo(int b_size)
 {
     board_size = b_size;
-    active_player = empty;
+    active_player = point::empty;
     board = new Board<point>(board_size);
 }
 MatchInfo::~MatchInfo()
 {
     delete board;
 }
-string MatchInfo::GetSaveString() 
+string MatchInfo::GetSaveString()
 {
     vector<string> stringified;
     stringified.push_back(std::to_string(board_size));
-    stringified.push_back(std::to_string(active_player));
+    stringified.push_back(std::to_string(static_cast<int>(active_player)));
     stringified.push_back(std::to_string(passed_last_turn));
     stringified.push_back(std::to_string(blacks_caps));
     stringified.push_back(std::to_string(whites_caps));
@@ -28,7 +28,7 @@ string MatchInfo::GetSaveString()
     }
     return save_string;
 }
-void MatchInfo::LoadSaveFile(string state_info) 
+void MatchInfo::LoadSaveFile(string state_info)
 {
     vector<string> state_strings = util::getStringParts(state_info, delim);
     int i = 0;
@@ -40,7 +40,7 @@ void MatchInfo::LoadSaveFile(string state_info)
     captured = {(std::stoi(state_strings[i++])), (std::stoi(state_strings[i++]))};
 }
 
-void MatchInfo::SaveGame() 
+void MatchInfo::SaveGame()
 {
     vector<string> save;
     string first_line = GetSaveString();
@@ -50,7 +50,7 @@ void MatchInfo::SaveGame()
     Save::SaveFile("GameSave", save);
 }
 
-void MatchInfo::LoadGame() 
+void MatchInfo::LoadGame()
 {
     auto save_file = Save::LoadFile("GameSave");
     LoadSaveFile(save_file[0]);

@@ -17,7 +17,7 @@ using std::endl;
 const string Save::save_name = "save.game";
 
 
- //TODO: Add save slots
+//TODO: Add save slots
 
 
 void Save::SaveGame(MatchInfo* match)
@@ -58,15 +58,15 @@ void Save::LoadBoard(Board<point>* board, int board_size, vector<string> board_l
         vector<point> p_row = PH::StringToPoints(line, board_size);
         board->SetRowOfElem(p_row , i++);
     }
-   
+
 }
 
-void Save::SaveFile(string name, vector<string> contents) 
+void Save::SaveFile(string name, vector<string> contents)
 {
     std::ofstream save_file (name);
     //fstream save_file;
     //save_file.open ("save.txt", fstream::trunc);
-    
+
     if (save_file.is_open()){
         for(auto& line : contents)
         {
@@ -76,7 +76,7 @@ void Save::SaveFile(string name, vector<string> contents)
     }
 }
 
-vector<string> Save::LoadFile(string name) 
+vector<string> Save::LoadFile(string name)
 {
     vector<string> contents;
     fstream save_file;
@@ -90,4 +90,5 @@ vector<string> Save::LoadFile(string name)
         }
          save_file.close();
     }
+    return contents;
 }

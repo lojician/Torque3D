@@ -3,7 +3,7 @@
 #include "elements.hpp"
 //Array 2D taken fron stackoverflow
 template <typename T>
-class Array2D 
+class Array2D
 {
 private:
     T *array;
@@ -22,10 +22,10 @@ public:
     ~Array2D() {
         delete[] array;
     }
-   
+
     void clear(){
         int i;
-    
+
         for (i = 0; i < size; ++i)
         {
             array[i] = static_cast<T>(0);
@@ -36,7 +36,6 @@ public:
     }
     T& at(unsigned int i) {
         if(i > size) throw std::out_of_range("Array2d out of range");
-
         return array[i];
     }
     T& at(unsigned int x, unsigned int y) {
@@ -46,9 +45,10 @@ public:
         return array[x * sizeX + y];
     }
     T& at(Position pos) {
-        if((pos.x > sizeX) || (pos.y > sizeY))
+        if (((pos.x > sizeX) || (pos.x < 0)) || ((pos.y > sizeY) || (pos.y < 0)))
             throw std::out_of_range("Array2d out of range");
 
         return array[pos.x * sizeX + pos.y];
     }
+
 };

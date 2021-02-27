@@ -10,12 +10,12 @@
 
 using std::vector; */
 
-//initialize 
+//initialize
 Game::Game()
 {
     start_bias = 6;
     match = new MatchInfo();
-    game_status = unstarted;
+    game_status = gameStatus::unstarted;
     board = match->board;
     checked_board = new Board<bool>(match->board_size);
 }
@@ -26,44 +26,44 @@ Game::~Game()
 void Game::Start()
 {
     match->captured = {-1, -1};
-    game_status = started;
+    game_status = gameStatus::started;
     match->whites_caps = 0;
     match->blacks_caps = 0;
     match->passed_last_turn = false;
-    controlling_player = empty;
+    controlling_player = point::empty;
     Play();
 }
 void Game::Play()
 {
-    while(game_status == 1)
+    while(game_status == gameStatus::started)
     {
         Position pos;
         UI::PrintBoard(board, match->board_size);
         DetermineTurn();
         PlayerAction();
     }
-    if (game_status == ending)
+    if (game_status == gameStatus::ending)
     {
         End();
     }
 }
 void Game::End()
 {
-    game_status = unstarted;
+    game_status = gameStatus::unstarted;
     CalculateScore();
 }
 void Game::DetermineTurn()
 {
     if (match->active_player == 0){
-        match->active_player = black;
+        match->active_player = point::black;
         UI::TurnAnnouncement("black");
-    } else if (match->active_player == black)
+    } else if (match->active_player == point::black)
     {
-        match->active_player = white;
+        match->active_player = point::white;
         UI::TurnAnnouncement("white");
-    } else if (match->active_player == white)
+    } else if (match->active_player == point::white)
     {
-        match->active_player = black;
+        match->active_player = point::black;
         UI::TurnAnnouncement("black");
     }
 }
@@ -72,46 +72,47 @@ void Game::PlayerAction()
     bool exit = false;
     Position pos;
     //run until valid input is entered
-    while(!exit){
+    while(!exit)
+    {
         char play = UI::PlayMenu();
         if (play == 't')
         {
             match->passed_last_turn = false;
             bool valid = false;
             pos = UI::GetPosition(match->board_size);
-            while(!valid){
-                
+            while(!valid)
+            {
                 if(pos != match->captured)
                 {
                     if (board->PlaceElem(pos, match->active_player))
                     {
-                        bool suicide =CheckSuicide(pos);
+                        bool suicide = CheckSuicide(pos);
                         if (!suicide)
                         {
                             valid = true;
                             ProcessAction(pos);
 
-                        } else 
+                        } else
                         {
                             board->RemoveElem(pos);
                         }
                     }
                 }
-                
+
                 if (!valid){
                     UI::PrintLine("The piece cannot be placed in that location");
                     pos = UI::GetPosition(match->board_size);
                 }
             }
             exit = true;
-            
+
         } else if (play == 'o')
         {
             HandleOptions();
-        } else 
+        } else
         {
             if (match->passed_last_turn){
-                game_status = ending;
+                game_status = gameStatus::ending;
             }
             match->passed_last_turn = true;
             exit = true;
@@ -126,7 +127,7 @@ void Game::HandleOptions()
         match->LoadGame();
     } else if (option == 's'){
         match->SaveGame();
-    } 
+    }
 }
 
 bool Game::CheckSuicide(Position pos){
@@ -137,24 +138,24 @@ bool Game::CheckSuicide(Position pos){
         checked_board->Clear();
         for (size_t i = 0 ; i < friends_positions.size(); i++)
         {
-            if(CheckAllXForY(friends_positions[i], match->active_player, empty)){
+            if(CheckAllXForY(friends_positions[i], match->active_player, point::empty)){
                 return false;
             }
         }
 
         point enemy = static_cast<point>(match->active_player * -1);
         auto enemy_positions = board->GetPosForSurrElems(pos, enemy);
-        
+
         //check capture of surrounding enemies
         for (size_t i = 0 ; i < enemy_positions.size(); i++)
         {
-            
+
             if(CheckCapture(enemy_positions[i], enemy))
             {
                 return false;
             }
         }
-        
+
         return true;
     } else {
         return false;
@@ -162,7 +163,7 @@ bool Game::CheckSuicide(Position pos){
 }
 
 bool Game::CheckCapture(Position pos, point piece)
-{  
+{
     if(CheckSurrounded(pos, piece))
     {
         //look for first empty space amongst connected comrades
@@ -172,13 +173,13 @@ bool Game::CheckCapture(Position pos, point piece)
             return true;
         }
         checked_board->Clear();
-        if (CheckAllXForY(pos, piece, empty))
+        if (CheckAllXForY(pos, piece, point::empty))
         {
             return false;
         }  else
         {
             return true;
-        }     
+        }
         return false;
     }
     return false;
@@ -187,9 +188,9 @@ bool Game::CheckCapture(Position pos, point piece)
 bool Game::CheckSurrounded(Position pos, point piece)
 {
     vector<point> sur_pieces =  board->GetAllSurroundingElem(pos);
-    for(int i = 0; i < sur_pieces.size();i++)
+    for(int i = 0; i < sur_pieces.size(); i++)
     {
-        if(sur_pieces[i]==empty){
+        if(sur_pieces[i]==point::empty){
             return false;
         }
     }
@@ -224,9 +225,9 @@ void Game::CaptureAllConnected(Position pos, point point)
     vector<Position> comrades = board->GetPosForSurrElems(pos, point);
     board->RemoveElem(pos);
 
-    if (point == black){
+    if (point == point::black){
         match->whites_caps += 1;
-    } else if (point == white){
+    } else if (point == point::white){
         match->blacks_caps += 1;
     }else {
         UI::PrintLine("somthing's wrong");
@@ -237,31 +238,31 @@ void Game::CaptureAllConnected(Position pos, point point)
         CaptureAllConnected(comrades[i], point);
     }
 }
-bool Game::CheckContiguousEmpty(Position pos, point first_contact=empty)
+bool Game::CheckContiguousEmpty(Position pos, point first_contact=point::empty)
 {
     bool controlled = true;
     if (!checked_board->GetElem(pos))
     {
         vector<point> adjacent = board->GetAllSurroundingElem(pos);
         //point first_contact = empty;
-        
+
         for (auto contact : adjacent)
         {
-            if (contact != empty){
-                if (first_contact == empty)
+            if (contact != point::empty){
+                if (first_contact == point::empty)
                 {
                     first_contact = contact;
                     controlling_player = first_contact;
                 } else if (first_contact != contact) {
                     //try returning controlling player instead of controlled bool to move controlling player out of class scope
-                    controlling_player = empty;
+                    controlling_player = point::empty;
                     controlled = false;
                 }
             }
         }
         checked_board->PlaceElem(pos, true);
         control_counter += 1;
-        vector<Position> empties = board->GetPosForSurrElems(pos, empty);
+        vector<Position> empties = board->GetPosForSurrElems(pos, point::empty);
         for (int i = 0; i < empties.size(); i++)
         {
             controlled = CheckContiguousEmpty(empties[i], first_contact);
@@ -270,13 +271,13 @@ bool Game::CheckContiguousEmpty(Position pos, point first_contact=empty)
     } else {
         return controlled;
     }
-   
+
 }
 
 void Game::ProcessAction(Position pos)
 {
     //process the consequences of the players turn
-    point enemy = static_cast<point>(match->active_player * -1);
+    point enemy = static_cast<point>(static_cast<int>(match->active_player) * -1);
     vector<Position> enemies = board->GetPosForSurrElems(pos, enemy);
     for (size_t i = 0 ; i < enemies.size(); i++)
     {
@@ -286,10 +287,10 @@ void Game::ProcessAction(Position pos)
             }
         }
     }
-    int score;
-    if (match->active_player == black){
+    int score = 0;
+    if (match->active_player == point::black){
         score = match->blacks_caps;
-    } else if(match->active_player == white){
+    } else if(match->active_player == point::white){
         score = match->whites_caps;
     }
     UI::PrintPlayersScore(score, match->active_player);
@@ -300,17 +301,17 @@ void Game::CalculateScore()
     int black_score = match->blacks_caps;
 
     checked_board->Clear();
-    //check empty spaces    
-    vector<Position> empty_spaces = board->GetAllPosForElem(empty);
+    //check empty spaces
+    vector<Position> empty_spaces = board->GetAllPosForElem(point::empty);
     for(size_t i = 0; i < empty_spaces.size(); i++)
     {
         control_counter = 0;
         if (!checked_board->GetElem(empty_spaces[i])){
-            //check if space controlled 
+            //check if space controlled
             if(CheckContiguousEmpty(empty_spaces[i])){
-                if (controlling_player == white){
+                if (controlling_player == point::white){
                     white_score += control_counter;
-                } else if (controlling_player == black){
+                } else if (controlling_player == point::black){
                     black_score += control_counter;
                 }
             }
@@ -318,7 +319,8 @@ void Game::CalculateScore()
     }
     UI::PrintFinalScores(black_score, white_score);
 }
-bool Game::CalculateTerritory(Position) 
+bool Game::CalculateTerritory(Position)
 {
     //check all connected empty spaces
+    return false;
 }

@@ -7,9 +7,9 @@ class MatchInfo;
 // TODO: Add ability to play different kinds of games
 // TODO: Add menu
 // TODO: Finish adding go rules
-enum gameStatus {unstarted = 0, started = 1, ending = 2};
+enum class gameStatus {unstarted = 0, started = 1, ending = 2};
 class Game
-{     
+{
 private:
     /* data */
     MatchInfo *match;

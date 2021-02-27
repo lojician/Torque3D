@@ -6,7 +6,10 @@
 using std::vector;
 using std::string;
 
-enum point : int {empty = 0, black = 1, white = -1};
+enum class point : char {empty = 0, black = 1, white = -1};
+bool operator==(point& p, int i);
+point operator*(point& p, int i);
+
 namespace PH{
     string PointsToString(vector<point> points, int size, bool saving);
     vector<point> StringToPoints(string point_string, int size);
@@ -18,18 +21,18 @@ struct Position
     int y = 0;
 
     // default + parameterized constructor
-    Position(int x=0, int y=0) 
+    Position(int x=0, int y=0)
         : x(x), y(y)
     {
     }
-    
+
     Position operator+=(const Position& a)
     {
         x += a.x;
         y += a.y;
         return *this;
     }
-    
+
     Position operator+(const Position& a) const
     {
         return Position(a.x+x, a.y+y);
@@ -80,11 +83,11 @@ struct SurroundingOffsets
     const Position below = dir[1] = {0,1};
     const Position left = dir[2] = {-1,0};
     const Position right = dir[3] = {1,0};
-    
+
 };
 struct BoundaryChecker
 {
-    bool dir[4] = {true};
+    bool dir[4] = {false};
     bool &above = dir[0];
     bool &below = dir[1];
     bool &left = dir[2];

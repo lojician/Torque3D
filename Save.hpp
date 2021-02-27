@@ -2,7 +2,7 @@
 #include "utility.hpp"
 template <typename T>
 class Board;
-enum point : int;
+enum class point : char;
 class MatchInfo;
 class Save{
     private:
